@@ -3,6 +3,8 @@ import json
 import os
 from typing import Any, Optional
 import numpy as np
+from typing import Any, Optional, List
+from data.review_api import get_reviews as fetch_steam_reviews
 
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -271,14 +273,21 @@ class KnowledgeBase:
     return {"wishlist": wl}
 
 
-  def get_reviews(self, id: int) -> list:
-    """Using API get up to date reviews on a game.
-    Args:
-      id (int): app id of game.
-    Returns:
-      list: list of recent reviews for that given game.
-    """
-    return []
+    def get_reviews(self, id: int, num_reviews: int = 50) -> List[str]:
+        """
+        Using API get up to date reviews on a game.
+
+        Args:
+            id (int): app id of game.
+            num_reviews (int): maximum number of reviews to retrieve.
+
+        Returns:
+            List[str]: list of recent reviews for that given game (can be empty).
+        """
+        if id is None or id == 0:
+            return []
+
+        return fetch_steam_reviews(id, num_reviews=num_reviews)
 
 
 if __name__ == "__main__":
