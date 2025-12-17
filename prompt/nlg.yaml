@@ -107,7 +107,12 @@ prompt:
         - If criteria is missing, suggest price, review, or genre.
 
       give_comparison(title1, title2, criteria):
-        - Use EK to summarize the comparison objectively.
+        - If EK is None, apologize and ask the user to try again.
+        - If criteria is "review", summarize EK.review objectively.
+        - If criteria is "price", summarize EK.price objectively.
+        - If criteria is "genre", summarize EK.genre objectively.
+        - Keep the answer concise and neutral.
+        - Offer to compare another pair afterward.
 
       fallback():
         - Apologize and ask the user to try again.
@@ -119,8 +124,8 @@ prompt:
 
       NBA: give_comparison(title1, title2, criteria)
       DS: {"intent": "compare_games", "slots": {"title1": "Overwatch 2", "title2": "Valorant", "criteria": "review"}}
-      EK: {"review": {"title1_value": {"positive": 100, "negative": 50}, "title2_value": {"positive": 400, "negative": 500}}}
-      → "Here’s the breakdown: Overwatch 2 has fewer reviews but more positives, while Valorant has more reviews and more negatives. Does that help?"
+      EK: {"review": {"Overwatch 2": {"positive": 100, "negative": 50}, "Valorant": {"positive": 400, "negative": 500}}}
+      → "Here’s the breakdown: Overwatch 2 has fewer reviews but more positives, while Valorant has more reviews and more negatives. Want to compare something else?"
 
       NBA: ask_for(title2)
       MI: True
