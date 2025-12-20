@@ -84,10 +84,18 @@ class DialogueAgent:
   def get_review_sa(self, reviews: dict) -> dict:
     """
     Compute sentiment analysis on a batch of reviews.
-    reviews is expected to be a dict:
+
+    Expected structure (from KB):
     {
         "summary": {...},
         "sample_reviews": [str, ...]
+    }
+
+    Returns:
+    {
+        "positive": int,
+        "negative": int,
+        "neutral": int
     }
     """
     report = {"positive": 0, "negative": 0, "neutral": 0}
@@ -98,10 +106,12 @@ class DialogueAgent:
     for review in reviews["sample_reviews"]:
         if not isinstance(review, str):
             continue
+        if len(review.strip()) < 10:
+            # ignore ultra-short noise
+            continue
 
         label = self.sa.generate(review)
 
-        # Normalize label
         label = label.strip().lower()
         label = label.replace("[", "").replace("]", "")
         label = label.replace('"', "").replace("'", "")
@@ -113,6 +123,7 @@ class DialogueAgent:
         report[label] += 1
 
     return report
+
 
 
 
