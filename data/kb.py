@@ -251,45 +251,23 @@ class KnowledgeBase:
         return {"wishlist": wl}
 
     # ---------------------------------------------------------
-    # reviews (correctly attached to the class)
+    # reviews (uses optimized Steam API wrapper)
     # ---------------------------------------------------------
-    def get_reviews(self, id: int, num_reviews: int = 50) -> List[str]:
+    def get_reviews(self, id: int, num_reviews: int = 50) -> dict:
         """
-        Using API get up to date reviews on a game.
+        Using API get up to date reviews on a game (lightweight).
+        Returns a summary + a small sample of review texts.
         """
         if id is None or id == 0:
-            return []
+            return {"summary": None, "sample_reviews": []}
         return fetch_steam_reviews(id, num_reviews=num_reviews)
 
 
 if __name__ == "__main__":
     kb = KnowledgeBase()
 
-    # Basic manual tests if you want to run kb.py directly
+    # Quick manual test examples (optional)
 
     # print(kb.game_by_title("elden ring"))
-    # slots = {"title": "postal 2", "info": "price"}
-    # print(kb.get_game_info(**slots))
-
-    # slots = {
-    #     "genre": None,
-    #     "price": None,
-    #     "release_year": 2021,
-    #     "platform": "linux",
-    #     "mode": "multiplayer",
-    #     "required_age": None,
-    #     "publisher": None,
-    #     "developer": None
-    # }
-    # print(kb.discover_game(**slots))
-
-    # slots = {"title1": "elden ring", "title2": "dark souls remastered", "criteria": "review"}
-    # print(kb.compare_games(**slots))
-
-    # slots = {"name": "Alex"}
-    # print(kb.get_friend_games(**slots))
-
-    # slots = {"term": "adventure game"}
-    # print(kb.get_term_explained(**slots))
-
-    # print(kb.get_wishlist())
+    # print(kb.get_game_info("elden ring", "price"))
+    # print(kb.compare_games("elden ring", "dark souls remastered", "review"))
