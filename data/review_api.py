@@ -24,7 +24,11 @@ def _fetch_appreviews(
     }
 
     try:
-        resp = requests.get(STEAM_APPREVIEWS_URL.format(appid=appid), params=params, timeout=10)
+        resp = requests.get(
+            STEAM_APPREVIEWS_URL.format(appid=appid),
+            params=params,
+            timeout=10,
+        )
         resp.raise_for_status()
         return resp.json()
     except Exception:
@@ -35,6 +39,17 @@ def get_reviews(appid: int, num_reviews: int = 50) -> Dict[str, Any]:
     """
     Public API used by KnowledgeBase.
     Returns a lightweight summary + a small sample of review texts.
+
+    Structure:
+    {
+        "summary": {
+            "total_positive": int,
+            "total_negative": int,
+            "total_reviews": int,
+            "score_desc": str | None
+        },
+        "sample_reviews": [str, ...]
+    }
     """
     data = _fetch_appreviews(appid, num_reviews=num_reviews)
 
