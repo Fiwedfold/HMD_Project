@@ -99,68 +99,67 @@ class DialogueAgent:
     # External Knowledge Retrieval
     # ---------------------------------------------------------
     def get_knowledge(self, nba: str, ds: dict) -> dict:
-    pattern = r'^([a-zA-Z_]\w*)\s*\('
-    match = re.match(pattern, nba)
-    if not match:
-        return {}
+        pattern = r'^([a-zA-Z_]\w*)\s*\('
+        match = re.match(pattern, nba)
+        if not match:
+            return {}
 
-    action_name = match.group(1)
-    if action_name in ["get_info", "fallback"]:
-        return {}
+        action_name = match.group(1)
+        if action_name in ["get_info", "fallback"]:
+            return {}
 
-    intent = ds.get("intent")
-    slots = ds.get("slots", {})
+        intent = ds.get("intent")
+        slots = ds.get("slots", {})
 
-    match intent:
-        case "get_game_info":
-            title = slots.get("title")
-            info = slots.get("info", "summary")
-            data = self.kb.get_game_info(title, info)
-            if "review" in data:
-                sa = self.get_review_sa(data["review"])
-                data["review"] = sa
+        match intent:
+            case "get_game_info":
+                title = slots.get("title")
+                info = slots.get("info", "summary")
+                data = self.kb.get_game_info(title, info)
+                if "review" in data:
+                    sa = self.get_review_sa(data["review"])
+                    data["review"] = sa
 
-        case "discover_game":
-            # ✅ FIX : filtrer les slots non supportés par le KB
-            allowed = ["genre", "price", "release_year", "platform", "mode",
-                       "required_age", "publisher", "developer"]
-            slots_for_kb = {k: v for k, v in slots.items() if k in allowed}
-            data = self.kb.discover_game(**slots_for_kb)
+            case "discover_game":
+                # ✅ Filter unsupported slots
+                allowed = ["genre", "price", "release_year", "platform", "mode",
+                           "required_age", "publisher", "developer"]
+                slots_for_kb = {k: v for k, v in slots.items() if k in allowed}
+                data = self.kb.discover_game(**slots_for_kb)
 
-        case "compare_games":
-            # ✅ FIX déjà appliqué : retirer comparison_mode
-            slots_for_kb = {k: v for k, v in slots.items() if k != "comparison_mode"}
-            data = self.kb.compare_games(**slots_for_kb)
+            case "compare_games":
+                # ✅ Remove comparison_mode
+                slots_for_kb = {k: v for k, v in slots.items() if k != "comparison_mode"}
+                data = self.kb.compare_games(**slots_for_kb)
 
-            if "review" in data:
-                enriched = {}
-                for title, reviews in data["review"].items():
-                    enriched[title] = {
-                        "summary": reviews.get("summary"),
-                        "sentiment": self.get_review_sa(reviews)
-                    }
-                data["review"] = enriched
+                if "review" in data:
+                    enriched = {}
+                    for title, reviews in data["review"].items():
+                        enriched[title] = {
+                            "summary": reviews.get("summary"),
+                            "sentiment": self.get_review_sa(reviews)
+                        }
+                    data["review"] = enriched
 
-        case "get_term_explained":
-            data = self.kb.get_term_explained(**slots)
+            case "get_term_explained":
+                data = self.kb.get_term_explained(**slots)
 
-        case "get_friend_games":
-            data = self.kb.get_friend_games(**slots)
+            case "get_friend_games":
+                data = self.kb.get_friend_games(**slots)
 
-        case "add_to_wishlist":
-            data = self.kb.add_wishlist(**slots)
+            case "add_to_wishlist":
+                data = self.kb.add_wishlist(**slots)
 
-        case "remove_from_wishlist":
-            data = self.kb.remove_wishlist(**slots)
+            case "remove_from_wishlist":
+                data = self.kb.remove_wishlist(**slots)
 
-        case "get_wishlist":
-            data = self.kb.get_wishlist()
+            case "get_wishlist":
+                data = self.kb.get_wishlist()
 
-        case _:
-            data = {"error": "Invalid intent."}
+            case _:
+                data = {"error": "Invalid intent."}
 
-    return data
-
+        return data
 
     # ---------------------------------------------------------
     # Chat Pipeline
@@ -182,8 +181,8 @@ class DialogueAgent:
 
         nlu_input = user_input if len(split_input) == 0 else split_input[-1]
 
-        # NLU
-        nlu_out = self.nlu.generate(nlu_input, list(self.history))
+        # ✅ NLU (no history passed)
+        nlu_out = self.nlu.generate(nlu_input)
         print(f"NLU OUT->{nlu_out}")
 
         self.dst.update_ds(nlu_out)
