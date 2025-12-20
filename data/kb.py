@@ -1,7 +1,7 @@
 import pandas as pd
 import json
 import os
-from typing import Any, Optional, List
+from typing import Any, Optional, List, Dict
 import numpy as np
 from difflib import get_close_matches
 from data.review_api import get_reviews as fetch_steam_reviews
@@ -18,23 +18,18 @@ class KnowledgeBase:
 
     def __init__(self):
         """Initialize external knowledge module."""
-        # Load games dataset
         self.game_database = pd.read_feather(GAMES_PATH)
-        # Load user profile
         self.user_profile = self._load_json(USER_PROFILE_PATH)
-        # Load glossary
         self.glossary = self._load_json(GLOSSARY_PATH)
 
     # ---------------------------------------------------------
     # JSON utilities
     # ---------------------------------------------------------
     def _load_json(self, path: str) -> Any:
-        """Utility to load json files."""
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
 
     def _save_json(self, data: dict, path: str) -> None:
-        """Save json file to disk."""
         with open(path, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=2)
 
@@ -42,32 +37,27 @@ class KnowledgeBase:
     # Title normalization + fuzzy matching
     # ---------------------------------------------------------
     def _normalize_title(self, title: str) -> str:
-        """Normalize a user-provided title to match dataset."""
         if not title:
             return ""
         t = title.lower().strip()
         t = t.replace("™", "").replace("®", "")
         t = t.replace(":", "").replace("-", " ")
-        t = " ".join(t.split())  # collapse multiple spaces
+        t = " ".join(t.split())
         return t
 
     def game_by_title(self, title: str) -> Optional[dict]:
-        """Get a game given the title (robust matching)."""
         title_norm = self._normalize_title(title)
 
-        # 1) exact match on name_normalized
         exact = self.game_database[self.game_database["name_normalized"] == title_norm]
         if not exact.empty:
             return exact.iloc[0].to_dict()
 
-        # 2) substring match
         substring = self.game_database[
             self.game_database["name_normalized"].str.contains(title_norm, case=False, na=False)
         ]
         if not substring.empty:
             return substring.iloc[0].to_dict()
 
-        # 3) fuzzy match
         candidates = self.game_database["name_normalized"].tolist()
         match = get_close_matches(title_norm, candidates, n=1, cutoff=0.6)
         if match:
@@ -80,7 +70,6 @@ class KnowledgeBase:
     # get_game_info
     # ---------------------------------------------------------
     def get_game_info(self, title: str, info: str) -> dict:
-        """Extract information for get_game_info intent."""
         game = self.game_by_title(title)
         if not game:
             return {"error": f"No game found with title '{title}'"}
@@ -89,8 +78,7 @@ class KnowledgeBase:
             case "summary":
                 data = game.get("about_the_game")
             case "genre":
-                data = game.get("genres", np.ndarray(1))
-                data = data.tolist()
+                data = game.get("genres", np.ndarray(1)).tolist()
             case "mode":
                 cats = game.get("categories", [])
                 data = {
@@ -125,7 +113,6 @@ class KnowledgeBase:
         publisher: Optional[str],
         developer: Optional[str],
     ) -> dict:
-        """Get games that satisfy a set of characteristics."""
         filtered_games = self.game_database.copy()
 
         if genre:
@@ -162,43 +149,136 @@ class KnowledgeBase:
         return {"games": results["name"].tolist()}
 
     # ---------------------------------------------------------
+    # genre similarity helper
+    # ---------------------------------------------------------
+    def compute_genre_similarity(self, game1: dict, game2: dict) -> Dict[str, Any]:
+        g1 = game1.get("genres", np.ndarray(0))
+        g2 = game2.get("genres", np.ndarray(0))
+        g1_set = set(g1.tolist() if isinstance(g1, np.ndarray) else g1)
+        g2_set = set(g2.tolist() if isinstance(g2, np.ndarray) else g2)
+
+        overlap = list(g1_set & g2_set)
+        only1 = list(g1_set - g2_set)
+        only2 = list(g2_set - g1_set)
+
+        union = g1_set | g2_set
+        jaccard = float(len(overlap) / len(union)) if union else 0.0
+
+        return {
+            "overlap": overlap,
+            "only_game1": only1,
+            "only_game2": only2,
+            "jaccard": jaccard,
+        }
+
+    # ---------------------------------------------------------
+    # metadata comparison helper
+    # ---------------------------------------------------------
+    def get_comparison_metadata(self, game1: dict, game2: dict) -> Dict[str, Any]:
+        def platforms(g: dict) -> List[str]:
+            return [p for p in ["windows", "mac", "linux"] if g.get(p) is True]
+
+        def modes(g: dict) -> Dict[str, bool]:
+            cats = g.get("categories", [])
+            return {
+                "singleplayer": any("single" in c for c in cats),
+                "multiplayer": any("multi" in c for c in cats),
+            }
+
+        meta = {
+            "price": {
+                game1["name_normalized"]: game1.get("price"),
+                game2["name_normalized"]: game2.get("price"),
+            },
+            "platforms": {
+                game1["name_normalized"]: platforms(game1),
+                game2["name_normalized"]: platforms(game2),
+            },
+            "modes": {
+                game1["name_normalized"]: modes(game1),
+                game2["name_normalized"]: modes(game2),
+            },
+            "release_year": {
+                game1["name_normalized"]: game1.get("release_date").year
+                if game1.get("release_date") is not None
+                else None,
+                game2["name_normalized"]: game2.get("release_date").year
+                if game2.get("release_date") is not None
+                else None,
+            },
+            "publisher": {
+                game1["name_normalized"]: game1.get("publishers_normalized"),
+                game2["name_normalized"]: game2.get("publishers_normalized"),
+            },
+            "developer": {
+                game1["name_normalized"]: game1.get("developers_normalized"),
+                game2["name_normalized"]: game2.get("developers_normalized"),
+            },
+        }
+        return meta
+
+    # ---------------------------------------------------------
     # compare_games
     # ---------------------------------------------------------
     def compare_games(self, title1: str, title2: str, criteria: str) -> dict:
-        """Get data to compare two games."""
+        """
+        criteria: "review", "price", "genre", "metadata", or "all"
+        """
         game1 = self.game_by_title(title1)
         game2 = self.game_by_title(title2)
 
         if not game1 or not game2:
             return {"error": "Could not retrieve data on one of the two titles"}
 
+        title1_norm = game1["name_normalized"]
+        title2_norm = game2["name_normalized"]
+
         match criteria:
             case "genre":
-                data = {
-                    title1: game1.get("genres", np.ndarray(1)).tolist(),
-                    title2: game2.get("genres", np.ndarray(1)).tolist(),
-                }
+                genre_info = self.compute_genre_similarity(game1, game2)
+                data = {"genre": genre_info}
             case "price":
                 data = {
-                    title1: game1.get("price"),
-                    title2: game2.get("price"),
+                    "price": {
+                        title1_norm: game1.get("price"),
+                        title2_norm: game2.get("price"),
+                    }
                 }
+            case "metadata":
+                data = {"metadata": self.get_comparison_metadata(game1, game2)}
             case "review":
                 id1 = game1.get("appid", 0)
                 id2 = game2.get("appid", 0)
                 reviews1 = self.get_reviews(id1)
                 reviews2 = self.get_reviews(id2)
-                data = {title1: reviews1, title2: reviews2}
+                data = {
+                    "review": {
+                        title1_norm: reviews1,
+                        title2_norm: reviews2,
+                    }
+                }
+            case "all":
+                id1 = game1.get("appid", 0)
+                id2 = game2.get("appid", 0)
+                reviews1 = self.get_reviews(id1)
+                reviews2 = self.get_reviews(id2)
+                data = {
+                    "review": {
+                        title1_norm: reviews1,
+                        title2_norm: reviews2,
+                    },
+                    "genre": self.compute_genre_similarity(game1, game2),
+                    "metadata": self.get_comparison_metadata(game1, game2),
+                }
             case _:
                 return {"error": "Invalid criteria"}
 
-        return {criteria: data}
+        return data
 
     # ---------------------------------------------------------
     # friend games
     # ---------------------------------------------------------
     def get_friend_games(self, name: str) -> dict:
-        """Get the games of a friend."""
         friends = self.user_profile.get("friends", [])
         for friend in friends:
             if friend["username"].lower() == name.lower():
@@ -209,7 +289,6 @@ class KnowledgeBase:
     # glossary
     # ---------------------------------------------------------
     def get_term_explained(self, term: str) -> dict:
-        """Get explanation of a term from the glossary."""
         definition = self.glossary.get(term)
         if not definition:
             return {"error": f"Invalid term '{term}'"}
@@ -219,46 +298,39 @@ class KnowledgeBase:
     # wishlist
     # ---------------------------------------------------------
     def add_wishlist(self, title: str) -> dict:
-        """Add a game to wishlist verifying it also exists."""
         game = self.game_by_title(title)
         if not game:
             return {"error": f"No game found with title '{title}'"}
 
-        current_wishlist = self.user_profile.get("wishlist", [])
-        if game["name_normalized"] in current_wishlist:
+        wl = self.user_profile.get("wishlist", [])
+        if game["name_normalized"] in wl:
             return {"error": f"'{game['name']}' is already in wishlist"}
 
-        current_wishlist.append(game["name_normalized"])
-        self.user_profile["wishlist"] = current_wishlist
+        wl.append(game["name_normalized"])
+        self.user_profile["wishlist"] = wl
         self._save_json(self.user_profile, USER_PROFILE_PATH)
         return {"confirmation": f"Added '{game['name']}' to your wishlist"}
 
     def remove_wishlist(self, title: str) -> dict:
-        """Remove a game from wishlist."""
-        current_wishlist = self.user_profile.get("wishlist", [])
-        match = next((g for g in current_wishlist if g == title), None)
+        wl = self.user_profile.get("wishlist", [])
+        match = next((g for g in wl if g == title), None)
 
         if not match:
             return {"error": f"'{title}' was not found in your wishlist"}
 
-        current_wishlist.remove(match)
-        self.user_profile["wishlist"] = current_wishlist
+        wl.remove(match)
+        self.user_profile["wishlist"] = wl
         self._save_json(self.user_profile, USER_PROFILE_PATH)
         return {"confirmation": f"Removed '{match}' from your wishlist"}
 
     def get_wishlist(self) -> dict:
-        """Get user wishlist."""
         wl = self.user_profile.get("wishlist", [])
         return {"wishlist": wl}
 
     # ---------------------------------------------------------
-    # reviews (uses optimized Steam API wrapper)
+    # reviews
     # ---------------------------------------------------------
     def get_reviews(self, id: int, num_reviews: int = 50) -> dict:
-        """
-        Using API get up to date reviews on a game (lightweight).
-        Returns a summary + a small sample of review texts.
-        """
         if id is None or id == 0:
             return {"summary": None, "sample_reviews": []}
         return fetch_steam_reviews(id, num_reviews=num_reviews)
@@ -266,9 +338,4 @@ class KnowledgeBase:
 
 if __name__ == "__main__":
     kb = KnowledgeBase()
-
-    # Quelques tests rapides (optionnels) si tu exécutes kb.py directement :
-    # print(kb.game_by_title("elden ring"))
-    # print(kb.get_game_info("elden ring", "price"))
-    # print(kb.compare_games("elden ring", "dark souls remastered", "review"))
-    # print(kb.get_wishlist())
+    # print(kb.compare_games("elden ring", "dark souls remastered", "all"))
