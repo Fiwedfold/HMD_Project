@@ -81,19 +81,41 @@ class DialogueAgent:
     return prompts
   
 
-  def get_review_sa(self, reviews: list) -> dict:
-    """Given list of reviews return a report of positive and negative.
-    Args:
-      reviews (list): list of reviews strings for a given game.
-    Returns:
-      dict: report of user sentiment on the game.
+  def get_review_sa(self, reviews: dict) -> dict:
     """
+    Compute sentiment analysis on a batch of reviews.
+    reviews is expected to be a dict:
+    {
+        "summary": {...},
+        "sample_reviews": [str, ...]
+    }
+    """
+    # Initialize counters
     report = {"positive": 0, "negative": 0, "neutral": 0}
-    for review in reviews:
-      label = self.sa.generate(review)
-      report[label] += 1
+
+    if not reviews or "sample_reviews" not in reviews:
+        return report
+
+    for review in reviews["sample_reviews"]:
+        if not isinstance(review, str):
+            continue
+
+        label = self.sa.generate(review)
+
+        # Normalize label (remove brackets, quotes, spaces)
+        label = label.strip().lower()
+        label = label.replace("[", "").replace("]", "")
+        label = label.replace('"', "").replace("'", "")
+        label = label.strip()
+
+        # Map unexpected outputs to neutral
+        if label not in report:
+            label = "neutral"
+
+        report[label] += 1
 
     return report
+
 
 
   def get_knowledge(self, nba: str, ds: dict) -> dict:
