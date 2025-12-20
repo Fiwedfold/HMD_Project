@@ -90,7 +90,6 @@ class DialogueAgent:
         "sample_reviews": [str, ...]
     }
     """
-    # Initialize counters
     report = {"positive": 0, "negative": 0, "neutral": 0}
 
     if not reviews or "sample_reviews" not in reviews:
@@ -102,19 +101,19 @@ class DialogueAgent:
 
         label = self.sa.generate(review)
 
-        # Normalize label (remove brackets, quotes, spaces)
+        # Normalize label
         label = label.strip().lower()
         label = label.replace("[", "").replace("]", "")
         label = label.replace('"', "").replace("'", "")
         label = label.strip()
 
-        # Map unexpected outputs to neutral
         if label not in report:
             label = "neutral"
 
         report[label] += 1
 
     return report
+
 
 
 
