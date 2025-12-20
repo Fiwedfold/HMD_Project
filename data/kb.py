@@ -29,10 +29,12 @@ class KnowledgeBase:
     # JSON utilities
     # ---------------------------------------------------------
     def _load_json(self, path: str) -> Any:
+        """Utility to load json files."""
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
 
     def _save_json(self, data: dict, path: str) -> None:
+        """Save json file to disk."""
         with open(path, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=2)
 
@@ -40,10 +42,9 @@ class KnowledgeBase:
     # Title normalization + fuzzy matching
     # ---------------------------------------------------------
     def _normalize_title(self, title: str) -> str:
-        """Normalize user-provided title to match dataset."""
+        """Normalize a user-provided title to match dataset."""
         if not title:
             return ""
-
         t = title.lower().strip()
         t = t.replace("™", "").replace("®", "")
         t = t.replace(":", "").replace("-", " ")
@@ -94,7 +95,7 @@ class KnowledgeBase:
                 cats = game.get("categories", [])
                 data = {
                     "singleplayer": any("single" in c for c in cats),
-                    "multiplayer": any("multi" in c for c in cats)
+                    "multiplayer": any("multi" in c for c in cats),
                 }
             case "required_age":
                 data = game.get("required_age")
@@ -122,7 +123,7 @@ class KnowledgeBase:
         mode: Optional[str],
         required_age: Optional[int],
         publisher: Optional[str],
-        developer: Optional[str]
+        developer: Optional[str],
     ) -> dict:
         """Get games that satisfy a set of characteristics."""
         filtered_games = self.game_database.copy()
@@ -175,12 +176,12 @@ class KnowledgeBase:
             case "genre":
                 data = {
                     title1: game1.get("genres", np.ndarray(1)).tolist(),
-                    title2: game2.get("genres", np.ndarray(1)).tolist()
+                    title2: game2.get("genres", np.ndarray(1)).tolist(),
                 }
             case "price":
                 data = {
                     title1: game1.get("price"),
-                    title2: game2.get("price")
+                    title2: game2.get("price"),
                 }
             case "review":
                 id1 = game1.get("appid", 0)
@@ -266,8 +267,8 @@ class KnowledgeBase:
 if __name__ == "__main__":
     kb = KnowledgeBase()
 
-    # Quick manual test examples (optional)
-
+    # Quelques tests rapides (optionnels) si tu exécutes kb.py directement :
     # print(kb.game_by_title("elden ring"))
     # print(kb.get_game_info("elden ring", "price"))
     # print(kb.compare_games("elden ring", "dark souls remastered", "review"))
+    # print(kb.get_wishlist())
