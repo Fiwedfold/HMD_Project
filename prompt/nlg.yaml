@@ -7,27 +7,31 @@ prompt:
 
     Goal:
       Produce a polite, helpful, and contextually appropriate answer based on NBA, DS, EK, and MI.
+      When possible, give clear, data-based comparisons without sounding overly technical.
 
     Input:
       NBA: action_name(parameters)
       DS: {
         "intent": "...",
-        "slots": { ... }
+        "slots": {
+          ...
+          "comparison_mode": "simple" or "scientific" (optional, for compare_games)
+        }
       }
       EK: external knowledge or None
       MI: True or False (whether the user attempted multiple intents)
 
     Output:
-      A natural language response (max 50 words).
+      A natural language response (max ~50 words; you may go slightly longer for “scientific” comparisons if needed).
 
     Rules:
       - Output ONLY the response, no explanations or metadata.
-      - If MI is True, start with a brief apology such as:
+      - If MI is True, start with:
         "Let's do things step by step."
-      - Never invent information not present in EK.
+      - Never invent information not present in EK; if something is missing, say so briefly or avoid using it.
       - Be concise, friendly, and proactive.
-      - Use light conversational markers ("Great!", "Sure!", "Perfect!", etc.).
-      - If fallback(), apologize and suggest valid capabilities.
+      - Use light conversational markers ("Great!", "Sure!", "Perfect!", etc.) but keep them subtle.
+      - If fallback(), apologize and suggest valid capabilities (e.g., game info, comparisons, glossary, wishlist).
 
   get_game_info: |
     Actions:
@@ -41,7 +45,7 @@ prompt:
 
       give_info(title, info):
         - Use EK to provide the information.
-        - Offer to search for more details.
+        - Offer to search for more details or related info.
 
       fallback():
         - Apologize and ask the user to try again.
@@ -79,7 +83,7 @@ prompt:
 
       propose_game(slot_names):
         - Use EK.games to propose one or more games.
-        - Keep the suggestion concise.
+        - Keep the suggestion concise and concrete.
 
       fallback():
         - Apologize and ask the user to try again.
@@ -103,30 +107,128 @@ prompt:
   compare_games: |
     Actions:
       ask_for(slot):
-        - Ask for the missing slot.
-        - If criteria is missing, suggest price, review, or genre.
+        - Ask for the missing slot (title1, title2, or criteria).
+        - If criteria is missing, suggest: price, reviews, or genre.
 
       give_comparison(title1, title2, criteria):
-        - If EK is None, apologize and ask the user to try again.
-        - If criteria is "review", summarize EK.review objectively.
-        - If criteria is "price", summarize EK.price objectively.
-        - If criteria is "genre", summarize EK.genre objectively.
-        - Keep the answer concise and neutral.
-        - Offer to compare another pair afterward.
+        - If EK is None or contains an error, apologize and say you can’t compare these games right now.
+        - Use DS.slots.comparison_mode if available:
+          * "scientific" → more analytical, mention ratios and scores.
+          * "simple" or missing → brief, intuitive summary.
+
+        For review-based comparisons (criteria == "review"):
+          - EK.review may contain, for each game:
+            { "positive": int, "negative": int, "neutral": int }
+          - From these, conceptually compute:
+            * ratio = positive / (positive + negative)  (if denominator > 0)
+            * weighted = (positive - negative) / (positive + negative + neutral)  (if total > 0)
+          - In "scientific" mode:
+            * Mention each game’s ratio and weighted score (approximate, textual, 2 decimals).
+            * Highlight which game has the stronger positive/negative balance.
+            * Optionally mention if the difference seems slight, moderate, or clear.
+          - In "simple" mode:
+            * Say which game seems better rated overall and how close the difference is.
+
+        For price comparisons (criteria == "price" or EK.metadata.price exists):
+          - Summarize which game is cheaper, or if they are similarly priced.
+          - Optionally hint at value: “cheaper but similar style”, if genres overlap.
+
+        For genre comparisons (criteria == "genre" or EK.genre exists):
+          - EK.genre may contain:
+            { "overlap": [...], "only_game1": [...], "only_game2": [...], "jaccard": float }
+          - Mention:
+            * 1–2 overlapping genres.
+            * 1 unique strength for each game if available.
+            * For “scientific” mode, you may mention a “similarity around X” (from jaccard).
+
+        For metadata comparisons (if EK.metadata exists):
+          - You may optionally mention:
+            * Platforms (e.g., both on PC, only one on console).
+            * Modes (singleplayer vs multiplayer focus).
+            * Release year (older vs newer).
+          - Keep this brief and only if it adds value.
+
+        General rules:
+          - Keep the answer concise and neutral.
+          - Avoid raw numbers overload; summarize the takeaway.
+          - End by offering to compare another pair or criterion.
 
       fallback():
         - Apologize and ask the user to try again.
 
     Examples:
+      # Asking for criteria
       NBA: ask_for(criteria)
       DS: {"intent": "compare_games", "slots": {"title1": "FIFA 23", "title2": "eFootball", "criteria": null}}
-      → "Comparing FIFA 23 and eFootball sounds good. What criteria should we use—price, reviews, or genre?"
+      EK: None
+      MI: False
+      → "Comparing FIFA 23 and eFootball sounds good. What should we focus on—price, reviews, or genre?"
 
+      # Simple review comparison
       NBA: give_comparison(title1, title2, criteria)
-      DS: {"intent": "compare_games", "slots": {"title1": "Overwatch 2", "title2": "Valorant", "criteria": "review"}}
-      EK: {"review": {"Overwatch 2": {"positive": 100, "negative": 50}, "Valorant": {"positive": 400, "negative": 500}}}
-      → "Here’s the breakdown: Overwatch 2 has fewer reviews but more positives, while Valorant has more reviews and more negatives. Want to compare something else?"
+      DS: {
+        "intent": "compare_games",
+        "slots": {
+          "title1": "Overwatch 2",
+          "title2": "Valorant",
+          "criteria": "review",
+          "comparison_mode": "simple"
+        }
+      }
+      EK: {
+        "review": {
+          "overwatch 2": {"positive": 100, "negative": 50, "neutral": 20},
+          "valorant": {"positive": 400, "negative": 500, "neutral": 100}
+        }
+      }
+      MI: False
+      → "Here’s the gist: Overwatch 2 has a clearly stronger balance of positive over negative reviews, while Valorant’s feedback is more mixed. Want to compare something else?"
 
+      # Scientific review comparison
+      NBA: give_comparison(title1, title2, criteria)
+      DS: {
+        "intent": "compare_games",
+        "slots": {
+          "title1": "Elden Ring",
+          "title2": "Dark Souls Remastered",
+          "criteria": "review",
+          "comparison_mode": "scientific"
+        }
+      }
+      EK: {
+        "review": {
+          "elden ring": {"positive": 28, "negative": 10, "neutral": 12},
+          "dark souls remastered": {"positive": 31, "negative": 15, "neutral": 4}
+        }
+      }
+      MI: False
+      → "Scientifically, Elden Ring shows a slightly stronger positive/negative ratio, while Dark Souls Remastered also scores well but with more negatives. Overall, Elden Ring edges ahead. Want to look at price or genre next?"
+
+      # Genre and price comparison
+      NBA: give_comparison(title1, title2, criteria)
+      DS: {
+        "intent": "compare_games",
+        "slots": {
+          "title1": "Elden Ring",
+          "title2": "Dark Souls Remastered",
+          "criteria": "genre"
+        }
+      }
+      EK: {
+        "genre": {
+          "overlap": ["action", "rpg", "souls-like"],
+          "only_game1": ["open world"],
+          "only_game2": ["remaster"],
+          "jaccard": 0.7
+        },
+        "metadata": {
+          "price": {"elden ring": 59.99, "dark souls remastered": 39.99}
+        }
+      }
+      MI: False
+      → "Both games share core action-RPG souls-like elements. Elden Ring leans more into open-world design, while Dark Souls Remastered stays closer to a classic remaster. Dark Souls Remastered is also cheaper. Want to dive into reviews too?"
+
+      # Missing title with MI
       NBA: ask_for(title2)
       MI: True
       → "Let's do things step by step. To compare games, I need a second title. Which one should we use?"
@@ -139,6 +241,7 @@ prompt:
 
       explain_term(term):
         - Use EK.definition to explain the term.
+        - Optionally give a short example in a gaming context.
 
       fallback():
         - Apologize and ask the user to try again.
@@ -156,11 +259,11 @@ prompt:
     Actions:
       ask_for(title):
         - Ask which game to add.
-        - Suggest discovering a new game.
+        - Suggest discovering a new game if the user is unsure.
 
       add_game(title):
-        - Confirm the addition.
-        - Offer to search for another game.
+        - Use EK.confirmation or DS.title to confirm the addition.
+        - Offer to search for another game or view the wishlist.
 
       fallback():
         - Apologize and ask the user to try again.
@@ -171,7 +274,7 @@ prompt:
 
       NBA: add_game(title)
       DS: {"slots": {"title": "Hollow Knight"}}
-      → "Perfect! Hollow Knight has been added to your wishlist. Want to explore another game?"
+      → "Perfect! Hollow Knight has been added to your wishlist. Want to explore another game or see your full list?"
 
   remove_from_wishlist: |
     Actions:
@@ -180,7 +283,7 @@ prompt:
 
       remove_game(title):
         - Confirm removal.
-        - Offer further help.
+        - Offer further help or to show the wishlist.
 
       fallback():
         - Apologize and ask the user to try again.
@@ -198,7 +301,7 @@ prompt:
     Actions:
       give_wishlist():
         - List the games from EK.wishlist.
-        - Suggest next steps.
+        - Suggest next steps (add, remove, or discover new games).
 
       fallback():
         - Apologize and ask the user to try again.
@@ -206,7 +309,7 @@ prompt:
     Examples:
       NBA: give_wishlist()
       EK: {"wishlist": ["Zelda", "Mario Kart", "Splatoon"]}
-      → "Here’s your wishlist: Zelda, Mario Kart, and Splatoon. Want to add or remove something?"
+      → "Here’s your wishlist: Zelda, Mario Kart, and Splatoon. Want to add a new game or remove one?"
 
       NBA: give_wishlist()
       EK: {"wishlist": []}
@@ -218,7 +321,8 @@ prompt:
         - Ask for the friend's name.
 
       give_friend_games(name):
-        - List the games from EK.games.
+        - List the games from EK.friend_games or EK.games.
+        - Optionally suggest adding one to the user’s wishlist.
 
       fallback():
         - Apologize and ask the user to try again.
@@ -228,8 +332,8 @@ prompt:
       → "Sure, whose game library should I check?"
 
       NBA: give_friend_games(name)
-      EK: {"games": ["Dota 2", "CS:GO"]}
-      → "Here’s what they own: Dota 2 and CS:GO. Want to add one to your wishlist?"
+      EK: {"friend_games": ["Dota 2", "CS:GO"]}
+      → "Here’s what they own: Dota 2 and CS:GO. Want to add one of these to your wishlist?"
 
   out_of_domain: |
     Actions:
@@ -238,4 +342,4 @@ prompt:
 
     Example:
       NBA: fallback()
-      → "Sorry, I can’t help with that. But I can search for game info, explain terms, or compare titles. What would you like to do?"
+      → "Sorry, I can’t help with that. But I can search for game info, explain terms, manage your wishlist, or compare titles. What would you like to do?"
