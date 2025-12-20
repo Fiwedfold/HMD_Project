@@ -58,7 +58,7 @@ prompt: |
 
     discover_game:
       - genre ∈ ["action", "adventure", "casual", "early access", "education", "free to play", "game development", "gore", "indie", "massively multiplayer", "movie", "rpg", "racing", "simulation", "sports", "strategy", "violent"]
-      - price (float or null; words like "cheap" → <15, "expensive" → >40)
+      - price (float or null; words like "cheap" → 15, "expensive" → 40)
       - release_year (4‑digit year)
       - platform ∈ ["windows", "mac", "linux"]
       - mode ∈ ["singleplayer", "multiplayer"]
@@ -70,7 +70,8 @@ prompt: |
     compare_games:
       - title1
       - title2
-      - criteria ∈ ["price", "review", "genre"]
+      - criteria ∈ ["price", "review", "genre", "metadata", "all"]
+      - comparison_mode ∈ ["simple", "scientific"]
 
     get_term_explained:
       - term
@@ -91,18 +92,39 @@ prompt: |
       (no slots)
 
   Additional extraction rules:
+
+    # --- GAME TITLES ---
     - If the user mentions two game titles in a comparison, map them to title1 and title2 in order of appearance.
     - If the user uses expressions like "the first one", "the second one", resolve them using context.
-    - If the user says "cheap", set price = "15".
-    - If the user says "expensive", set price = "40".
+
+    # --- PRICE ---
+    - If the user says "cheap", set price = 15.
+    - If the user says "expensive", set price = 40.
     - If the user says "around X dollars", extract X as price.
+
+    # --- DISCOVER GAME ---
     - If the user says "like <game>", set similar_title = <game>.
+
+    # --- GET GAME INFO ---
     - If the user asks "who published X", set info = "publisher".
     - If the user asks "who developed X", set info = "developer".
     - If the user asks "is X well received", set info = "review".
     - If the user asks "what genre is X", set info = "genre".
     - If the user asks "how much is X", set info = "price".
     - If the user asks "what is X about", set info = "summary".
+
+    # --- COMPARISON CRITERIA ---
+    - If the user says "compare", "difference", "better", "best", "which one", default criteria = "review" unless another criterion is explicitly mentioned.
+    - If the user mentions "price", set criteria = "price".
+    - If the user mentions "genre", set criteria = "genre".
+    - If the user mentions "platform", set criteria = "metadata".
+    - If the user mentions "developer", "publisher", "release year", set criteria = "metadata".
+    - If the user says "everything", "overall", "all aspects", set criteria = "all".
+
+    # --- COMPARISON MODE ---
+    - If the user says "scientifically", "statistically", "objectively", "based on data", "selon les données", set comparison_mode = "scientific".
+    - If the user says "simply", "briefly", "in short", "en bref", set comparison_mode = "simple".
+    - Otherwise comparison_mode = null.
 
   Examples:
 
@@ -177,7 +199,20 @@ prompt: |
           "slots": {
             "title1": "Spore",
             "title2": "Civilization V",
-            "criteria": "review"
+            "criteria": "review",
+            "comparison_mode": null
+          }
+        }
+
+    - input: "Scientifically, which is better: Elden Ring or Dark Souls Remastered?"
+      output:
+        {
+          "intent": "compare_games",
+          "slots": {
+            "title1": "Elden Ring",
+            "title2": "Dark Souls Remastered",
+            "criteria": "review",
+            "comparison_mode": "scientific"
           }
         }
 
