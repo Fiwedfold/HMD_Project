@@ -133,10 +133,12 @@ class DialogueAgent:
                 if sim:
                     sim_str = str(sim).lower()
                     if "soul" in sim_str:  # matches "souls", "soulslike", etc.
+                        # Normalize to a concrete reference game
                         slots_for_kb["similar_title"] = "dark souls iii"
-                        # If NLU biased genre to "indie" for Souls-like, correct it to "action"
-                        if slots_for_kb.get("genre") == "indie":
-                            slots_for_kb["genre"] = "action"
+                        # IMPORTANT: ignore NLU genre hallucination for Souls-like
+                        # We drop 'genre' entirely so that similarity drives the search.
+                        if "genre" in slots_for_kb:
+                            slots_for_kb.pop("genre", None)
 
                 data = self.kb.discover_game(**slots_for_kb)
 
