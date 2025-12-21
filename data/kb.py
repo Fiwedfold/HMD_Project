@@ -80,7 +80,10 @@ class KnowledgeBase:
 
             case "genre":
                 genres = game.get("genres", [])
-                data = genres.tolist() if isinstance(genres, np.ndarray) else genres
+                if isinstance(genres, np.ndarray):
+                    data = genres.tolist()
+                else:
+                    data = list(genres) if isinstance(genres, list) else [genres] if genres else []
 
             case "mode":
                 cats = game.get("categories", [])
@@ -158,24 +161,48 @@ class KnowledgeBase:
                 filtered_games["developers_normalized"].str.contains(developer, case=False, na=False)
             ]
 
-        # Similar title logic
+        # Souls-like similarity handling
         if similar_title:
             ref = self.game_by_title(similar_title)
             if ref:
-                ref_genres = set(ref.get("genres", []))
+                ref_genres_raw = ref.get("genres", [])
+                if isinstance(ref_genres_raw, np.ndarray):
+                    ref_genres = set(ref_genres_raw.tolist())
+                else:
+                    ref_genres = set(ref_genres_raw) if isinstance(ref_genres_raw, list) else {ref_genres_raw} if ref_genres_raw else set()
+
+                def genres_to_set(g):
+                    if isinstance(g, np.ndarray):
+                        return set(g.tolist())
+                    if isinstance(g, list):
+                        return set(g)
+                    return {g} if g else set()
+
                 filtered_games["similarity"] = filtered_games["genres"].apply(
-                    lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
+                    lambda g: len(ref_genres.intersection(genres_to_set(g)))
                 )
                 filtered_games = filtered_games.sort_values("similarity", ascending=False)
 
-        # Fallback if empty
+        # Fallback if empty but similar_title provided
         if filtered_games.empty and similar_title:
             ref = self.game_by_title(similar_title)
             if ref:
-                ref_genres = set(ref.get("genres", []))
+                ref_genres_raw = ref.get("genres", [])
+                if isinstance(ref_genres_raw, np.ndarray):
+                    ref_genres = set(ref_genres_raw.tolist())
+                else:
+                    ref_genres = set(ref_genres_raw) if isinstance(ref_genres_raw, list) else {ref_genres_raw} if ref_genres_raw else set()
+
+                def genres_to_set(g):
+                    if isinstance(g, np.ndarray):
+                        return set(g.tolist())
+                    if isinstance(g, list):
+                        return set(g)
+                    return {g} if g else set()
+
                 filtered_games = self.game_database.copy()
                 filtered_games["similarity"] = filtered_games["genres"].apply(
-                    lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
+                    lambda g: len(ref_genres.intersection(genres_to_set(g)))
                 )
                 filtered_games = filtered_games.sort_values("similarity", ascending=False)
 
@@ -192,8 +219,15 @@ class KnowledgeBase:
         g1 = game1.get("genres", [])
         g2 = game2.get("genres", [])
 
-        g1_set = set(g1.tolist() if isinstance(g1, np.ndarray) else g1)
-        g2_set = set(g2.tolist() if isinstance(g2, np.ndarray) else g2)
+        if isinstance(g1, np.ndarray):
+            g1_set = set(g1.tolist())
+        else:
+            g1_set = set(g1) if isinstance(g1, list) else {g1} if g1 else set()
+
+        if isinstance(g2, np.ndarray):
+            g2_set = set(g2.tolist())
+        else:
+            g2_set = set(g2) if isinstance(g2, list) else {g2} if g2 else set()
 
         overlap = list(g1_set & g2_set)
         only1 = list(g1_set - g2_set)

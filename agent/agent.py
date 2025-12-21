@@ -8,6 +8,7 @@ import os
 import json
 import re
 
+
 class DialogueAgent:
     def __init__(self, model: Dict[str, str], device: str = "cuda", n_exchanges: int = 3) -> None:
         """Initialize dialogue agent."""
@@ -126,6 +127,17 @@ class DialogueAgent:
                     "required_age", "publisher", "developer", "similar_title"
                 ]
                 slots_for_kb = {k: v for k, v in slots.items() if k in allowed}
+
+                # Souls-like normalization at the agent level
+                sim = slots_for_kb.get("similar_title")
+                if sim:
+                    sim_str = str(sim).lower()
+                    if "soul" in sim_str:  # matches "souls", "soulslike", etc.
+                        slots_for_kb["similar_title"] = "dark souls iii"
+                        # If NLU biased genre to "indie" for Souls-like, correct it to "action"
+                        if slots_for_kb.get("genre") == "indie":
+                            slots_for_kb["genre"] = "action"
+
                 data = self.kb.discover_game(**slots_for_kb)
 
             case "compare_games":

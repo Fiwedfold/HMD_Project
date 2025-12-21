@@ -24,12 +24,12 @@ prompt:
     Rules:
       - Only output the action without any additional text.
       - Don't include any explanations or headings in the output.
-      - If a required slot is missing → ask_for(slot_name)
-      - If all required slots are present → call the appropriate action
-      - Titles and slot values must be passed exactly as received
-      - Never invent slot names
-      - Never output natural language
-      - Never output JSON
+      - If a required slot is missing → ask_for(slot_name).
+      - If all required slots are present → call the appropriate action.
+      - Titles and slot values must be passed exactly as received.
+      - Never invent slot names.
+      - Never output natural language.
+      - Never output JSON.
 
   get_game_info: |
     The user wants to find information on a game.
@@ -75,9 +75,13 @@ prompt:
       - publisher
       - developer
 
-    Additional rules:
-      - If similar_title contains the word "souls", normalize it to "dark souls iii".
-      - If genre is "indie" AND similar_title is "dark souls iii", change genre to "action".
+    Souls-like specific rules:
+      - If similar_title contains "souls", "soul", or "soulslike" (case-insensitive),
+        you must interpret it as the user referring to the Souls series.
+      - In that case, normalize similar_title to "dark souls iii".
+      - If genre is "indie" and similar_title refers to Souls-like (e.g. "souls", "soulslike"),
+        you should ignore the "indie" bias and instead align with an action / action-rpg style.
+        You can treat the genre as "action" in your reasoning when choosing the action.
 
     The actions to be chosen from this intent are:
     1. ask_for(genre), if every slot is missing (all null).
@@ -117,6 +121,23 @@ prompt:
           }
         }
       output: propose_game(price, mode)
+
+    - input:
+        {
+          "intent": "discover_game",
+          "slots": {
+            "genre": "indie",
+            "price": null,
+            "release_year": null,
+            "platform": null,
+            "mode": null,
+            "similar_title": "Souls-like",
+            "required_age": null,
+            "publisher": null,
+            "developer": null
+          }
+        }
+      output: propose_game(similar_title)
 
   compare_games: |
     The user wants to get a comparison of two games.
