@@ -103,68 +103,79 @@ class KnowledgeBase:
     # discover_game (FULLY FIXED VERSION)
     # ---------------------------------------------------------
     def discover_game(
-        self,
-        genre=None,
-        price=None,
-        release_year=None,
-        platform=None,
-        mode=None,
-        required_age=None,
-        publisher=None,
-        developer=None,
-        similar_title=None
-    ):
-        filtered_games = self.game_database.copy()
+    self,
+    genre=None,
+    price=None,
+    release_year=None,
+    platform=None,
+    mode=None,
+    required_age=None,
+    publisher=None,
+    developer=None,
+    similar_title=None
+):
+    filtered_games = self.game_database.copy()
 
-        if genre:
-            filtered_games = filtered_games[
-                filtered_games["genres"].astype(str).str.contains(genre, case=False, na=False)
-            ]
+    if genre:
+        filtered_games = filtered_games[
+            filtered_games["genres"].astype(str).str.contains(genre, case=False, na=False)
+        ]
 
-        if price:
-            filtered_games = filtered_games[filtered_games["price"] <= price]
+    if price:
+        filtered_games = filtered_games[filtered_games["price"] <= price]
 
-        if release_year:
-            filtered_games = filtered_games[
-                filtered_games["release_date"].apply(lambda x: x.year) == release_year
-            ]
+    if release_year:
+        filtered_games = filtered_games[
+            filtered_games["release_date"].apply(lambda x: x.year) == release_year
+        ]
 
-        if platform:
-            filtered_games = filtered_games[filtered_games[platform] is True]
+    if platform:
+        filtered_games = filtered_games[filtered_games[platform] is True]
 
-        if mode:
-            filtered_games = filtered_games[
-                filtered_games["categories"].astype(str).str.contains(mode, case=False, na=False)
-            ]
+    if mode:
+        filtered_games = filtered_games[
+            filtered_games["categories"].astype(str).str.contains(mode, case=False, na=False)
+        ]
 
-        if required_age:
-            filtered_games = filtered_games[filtered_games["required_age"] == required_age]
+    if required_age:
+        filtered_games = filtered_games[filtered_games["required_age"] == required_age]
 
-        if publisher:
-            filtered_games = filtered_games[
-                filtered_games["publishers_normalized"].str.contains(publisher, case=False, na=False)
-            ]
+    if publisher:
+        filtered_games = filtered_games[
+            filtered_games["publishers_normalized"].str.contains(publisher, case=False, na=False)
+        ]
 
-        if developer:
-            filtered_games = filtered_games[
-                filtered_games["developers_normalized"].str.contains(developer, case=False, na=False)
-            ]
+    if developer:
+        filtered_games = filtered_games[
+            filtered_games["developers_normalized"].str.contains(developer, case=False, na=False)
+        ]
 
-        # ✅ NEW : similar_title support
-        if similar_title:
-            ref = self.game_by_title(similar_title)
-            if ref:
-                ref_genres = set(ref.get("genres", []))
-                filtered_games["similarity"] = filtered_games["genres"].apply(
-                    lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
-                )
-                filtered_games = filtered_games.sort_values("similarity", ascending=False)
+    # ✅ NEW : similar_title support
+    if similar_title:
+        ref = self.game_by_title(similar_title)
+        if ref:
+            ref_genres = set(ref.get("genres", []))
+            filtered_games["similarity"] = filtered_games["genres"].apply(
+                lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
+            )
+            filtered_games = filtered_games.sort_values("similarity", ascending=False)
 
-        results = filtered_games.head(5)
-        if results.empty:
-            return {"error": "No matches found with characteristics."}
+    # ✅ NEW : fallback si aucun résultat
+    if filtered_games.empty and similar_title:
+        ref = self.game_by_title(similar_title)
+        if ref:
+            ref_genres = set(ref.get("genres", []))
+            filtered_games = self.game_database.copy()
+            filtered_games["similarity"] = filtered_games["genres"].apply(
+                lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
+            )
+            filtered_games = filtered_games.sort_values("similarity", ascending=False)
 
-        return {"games": results["name"].tolist()}
+    results = filtered_games.head(5)
+    if results.empty:
+        return {"error": "No matches found with characteristics."}
+
+    return {"games": results["name"].tolist()}
 
     # ---------------------------------------------------------
     # genre similarity helper
