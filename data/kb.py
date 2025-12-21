@@ -77,112 +77,121 @@ class KnowledgeBase:
         match info:
             case "summary":
                 data = game.get("about_the_game")
+
             case "genre":
-                data = game.get("genres", np.ndarray(1)).tolist()
+                genres = game.get("genres", [])
+                data = genres.tolist() if isinstance(genres, np.ndarray) else genres
+
             case "mode":
                 cats = game.get("categories", [])
                 data = {
                     "singleplayer": any("single" in c for c in cats),
                     "multiplayer": any("multi" in c for c in cats),
                 }
+
             case "required_age":
                 data = game.get("required_age")
+
             case "platform":
                 data = [p for p in ["windows", "mac", "linux"] if game.get(p) is True]
+
             case "price":
                 data = game.get("price")
+
             case "review":
                 appid = game.get("appid", 0)
                 data = self.get_reviews(appid)
+
             case _:
                 data = {"error": "Invalid info"}
 
         return {info: data}
 
     # ---------------------------------------------------------
-    # discover_game (FULLY FIXED VERSION)
+    # discover_game
     # ---------------------------------------------------------
     def discover_game(
-    self,
-    genre=None,
-    price=None,
-    release_year=None,
-    platform=None,
-    mode=None,
-    required_age=None,
-    publisher=None,
-    developer=None,
-    similar_title=None
-):
-    filtered_games = self.game_database.copy()
+        self,
+        genre=None,
+        price=None,
+        release_year=None,
+        platform=None,
+        mode=None,
+        required_age=None,
+        publisher=None,
+        developer=None,
+        similar_title=None
+    ):
+        filtered_games = self.game_database.copy()
 
-    if genre:
-        filtered_games = filtered_games[
-            filtered_games["genres"].astype(str).str.contains(genre, case=False, na=False)
-        ]
+        if genre:
+            filtered_games = filtered_games[
+                filtered_games["genres"].astype(str).str.contains(genre, case=False, na=False)
+            ]
 
-    if price:
-        filtered_games = filtered_games[filtered_games["price"] <= price]
+        if price:
+            filtered_games = filtered_games[filtered_games["price"] <= price]
 
-    if release_year:
-        filtered_games = filtered_games[
-            filtered_games["release_date"].apply(lambda x: x.year) == release_year
-        ]
+        if release_year:
+            filtered_games = filtered_games[
+                filtered_games["release_date"].apply(lambda x: x.year) == release_year
+            ]
 
-    if platform:
-        filtered_games = filtered_games[filtered_games[platform] is True]
+        if platform:
+            filtered_games = filtered_games[filtered_games[platform] == True]
 
-    if mode:
-        filtered_games = filtered_games[
-            filtered_games["categories"].astype(str).str.contains(mode, case=False, na=False)
-        ]
+        if mode:
+            filtered_games = filtered_games[
+                filtered_games["categories"].astype(str).str.contains(mode, case=False, na=False)
+            ]
 
-    if required_age:
-        filtered_games = filtered_games[filtered_games["required_age"] == required_age]
+        if required_age:
+            filtered_games = filtered_games[filtered_games["required_age"] == required_age]
 
-    if publisher:
-        filtered_games = filtered_games[
-            filtered_games["publishers_normalized"].str.contains(publisher, case=False, na=False)
-        ]
+        if publisher:
+            filtered_games = filtered_games[
+                filtered_games["publishers_normalized"].str.contains(publisher, case=False, na=False)
+            ]
 
-    if developer:
-        filtered_games = filtered_games[
-            filtered_games["developers_normalized"].str.contains(developer, case=False, na=False)
-        ]
+        if developer:
+            filtered_games = filtered_games[
+                filtered_games["developers_normalized"].str.contains(developer, case=False, na=False)
+            ]
 
-    # ✅ NEW : similar_title support
-    if similar_title:
-        ref = self.game_by_title(similar_title)
-        if ref:
-            ref_genres = set(ref.get("genres", []))
-            filtered_games["similarity"] = filtered_games["genres"].apply(
-                lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
-            )
-            filtered_games = filtered_games.sort_values("similarity", ascending=False)
+        # Similar title logic
+        if similar_title:
+            ref = self.game_by_title(similar_title)
+            if ref:
+                ref_genres = set(ref.get("genres", []))
+                filtered_games["similarity"] = filtered_games["genres"].apply(
+                    lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
+                )
+                filtered_games = filtered_games.sort_values("similarity", ascending=False)
 
-    # ✅ NEW : fallback si aucun résultat
-    if filtered_games.empty and similar_title:
-        ref = self.game_by_title(similar_title)
-        if ref:
-            ref_genres = set(ref.get("genres", []))
-            filtered_games = self.game_database.copy()
-            filtered_games["similarity"] = filtered_games["genres"].apply(
-                lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
-            )
-            filtered_games = filtered_games.sort_values("similarity", ascending=False)
+        # Fallback if empty
+        if filtered_games.empty and similar_title:
+            ref = self.game_by_title(similar_title)
+            if ref:
+                ref_genres = set(ref.get("genres", []))
+                filtered_games = self.game_database.copy()
+                filtered_games["similarity"] = filtered_games["genres"].apply(
+                    lambda g: len(ref_genres.intersection(set(g))) if isinstance(g, list) else 0
+                )
+                filtered_games = filtered_games.sort_values("similarity", ascending=False)
 
-    results = filtered_games.head(5)
-    if results.empty:
-        return {"error": "No matches found with characteristics."}
+        results = filtered_games.head(5)
+        if results.empty:
+            return {"error": "No matches found with characteristics."}
 
-    return {"games": results["name"].tolist()}
+        return {"games": results["name"].tolist()}
 
     # ---------------------------------------------------------
     # genre similarity helper
     # ---------------------------------------------------------
     def compute_genre_similarity(self, game1: dict, game2: dict) -> Dict[str, Any]:
-        g1 = game1.get("genres", np.ndarray(0))
-        g2 = game2.get("genres", np.ndarray(0))
+        g1 = game1.get("genres", [])
+        g2 = game2.get("genres", [])
+
         g1_set = set(g1.tolist() if isinstance(g1, np.ndarray) else g1)
         g2_set = set(g2.tolist() if isinstance(g2, np.ndarray) else g2)
 
@@ -214,7 +223,7 @@ class KnowledgeBase:
                 "multiplayer": any("multi" in c for c in cats),
             }
 
-        meta = {
+        return {
             "price": {
                 game1["name_normalized"]: game1.get("price"),
                 game2["name_normalized"]: game2.get("price"),
@@ -229,11 +238,9 @@ class KnowledgeBase:
             },
             "release_year": {
                 game1["name_normalized"]: game1.get("release_date").year
-                if game1.get("release_date") is not None
-                else None,
+                if game1.get("release_date") is not None else None,
                 game2["name_normalized"]: game2.get("release_date").year
-                if game2.get("release_date") is not None
-                else None,
+                if game2.get("release_date") is not None else None,
             },
             "publisher": {
                 game1["name_normalized"]: game1.get("publishers_normalized"),
@@ -244,7 +251,6 @@ class KnowledgeBase:
                 game2["name_normalized"]: game2.get("developers_normalized"),
             },
         }
-        return meta
 
     # ---------------------------------------------------------
     # compare_games
