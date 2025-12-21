@@ -128,17 +128,14 @@ class DialogueAgent:
                 ]
                 slots_for_kb = {k: v for k, v in slots.items() if k in allowed}
 
-                # Souls-like normalization at the agent level
+                # Souls-like normalization
                 sim = slots_for_kb.get("similar_title")
                 if sim:
                     sim_str = str(sim).lower()
-                    if "soul" in sim_str:  # matches "souls", "soulslike", etc.
-                        # Normalize to a concrete reference game
+                    if "soul" in sim_str:
                         slots_for_kb["similar_title"] = "dark souls iii"
-                        # IMPORTANT: ignore NLU genre hallucination for Souls-like
-                        # We drop 'genre' entirely so that similarity drives the search.
-                        if "genre" in slots_for_kb:
-                            slots_for_kb.pop("genre", None)
+                        # Remove genre hallucination
+                        slots_for_kb.pop("genre", None)
 
                 data = self.kb.discover_game(**slots_for_kb)
 
@@ -174,6 +171,32 @@ class DialogueAgent:
                 data = {"error": "Invalid intent."}
 
         return data
+
+    # ---------------------------------------------------------
+    # DS CLEANING BEFORE NLG (THE FIX)
+    # ---------------------------------------------------------
+    def _clean_ds_for_nlg(self, ds: dict, nba: str) -> dict:
+        """
+        Remove irrelevant or hallucinated slots before sending DS to NLG.
+        Ensures NLG never sees 'genre = indie' for Souls-like queries.
+        """
+
+        cleaned = json.loads(json.dumps(ds))  # deep copy
+
+        # Extract slots used in NBA
+        match = re.match(r'^([a-zA-Z_]\w*)\((.*)\)$', nba.strip())
+        used_slots = set()
+
+        if match:
+            args = match.group(2).split(",")
+            used_slots = {a.strip() for a in args if a.strip()}
+
+        # Remove slots not used by NBA
+        for slot in list(cleaned["slots"].keys()):
+            if slot not in used_slots:
+                cleaned["slots"].pop(slot, None)
+
+        return cleaned
 
     # ---------------------------------------------------------
     # Chat Pipeline
@@ -218,6 +241,9 @@ class DialogueAgent:
             nba = "fallback()"
             ek = None
 
+        # ✅ CLEAN DS BEFORE NLG
+        cleaned_ds = self._clean_ds_for_nlg(self.dst.get_ds(), nba)
+
         # NLG
         self.nlg.change_system_prompt(
             self.system_prompt["nlg"]["prompt"]["main"]
@@ -226,7 +252,7 @@ class DialogueAgent:
 
         nlg_input = (
             f"NBA: {nba}\n"
-            f"DS: {self.dst.get_ds()}\n"
+            f"DS: {cleaned_ds}\n"
             f"EK: {ek}\n"
             f"MI: {multiple_intents}"
         )
