@@ -15,7 +15,7 @@ class DialogueAgent:
         self.model_name = model
         self.device = device
         self.n_exchanges = n_exchanges
-        
+
         # Load knowledge base
         self.kb = KnowledgeBase()
 
@@ -29,9 +29,7 @@ class DialogueAgent:
         self.preproc = LLMTask(self._get_loader("preproc"), self.system_prompt["preproc"]["prompt"])
         self.nlu = LLMTask(self._get_loader("nlu"), self.system_prompt["nlu"]["prompt"])
 
-        # -----------------------------
-        # DM — FIXED, ROBUST LOADING
-        # -----------------------------
+        # DM — robust loading
         dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
         dm_main = dm_block.get("main", "")
         self.dm = LLMTask(self._get_loader("dm"), dm_main)
@@ -225,9 +223,7 @@ class DialogueAgent:
         ds = self.dst.get_ds()
         print(f"DST OUT->{ds}")
 
-        # -----------------------------
-        # DM — FIXED PROMPT SWITCHING
-        # -----------------------------
+        # DM — prompt switching + DS encapsulation
         intent_name = self.dst.ds["intent"]
 
         dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
@@ -236,7 +232,9 @@ class DialogueAgent:
 
         self.dm.change_system_prompt(dm_main + "\n" + dm_intent)
 
-        nba = self.dm.generate(ds)
+        # Encapsulate DS to avoid it being treated as a natural question
+        dm_input = f"### DS ###\n{json.dumps(ds, indent=2)}\n### END_DS ###"
+        nba = self.dm.generate(dm_input)
         print(f"DM OUT->{nba}")
 
         # KB
