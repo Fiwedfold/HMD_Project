@@ -1,71 +1,279 @@
-dm:
-  prompt:
-    main: |
-      Role:
-        You are the Dialogue Manager (DM). 
-        You NEVER interpret user text. 
-        You ONLY read the Dialogue State (DS) provided to you.
-        You NEVER modify the DS.
-        You NEVER guess missing values.
-        You NEVER output JSON.
-        You ALWAYS output exactly ONE action in the form:
-          action_name(arg1, arg2, ...)
-        or:
-          action_name()
+prompt:
+  main: |
+    Role:
+      You are a part of a dialogue agent that assists user with their videogame-related needs.
+      You are the DM (Dialogue Manager) component of the system.
+    
+    Goal:
+      The goal is to take in the Dialogue State (DS) and return the Next Best Action (NBA).
 
-      Input:
-        You receive a DS of the form:
-          {
-            "intent": "...",
-            "slots": { ... }
+    Input:
+      The input has the following format:
+        {
+          "intent": "...", 
+          "slots": {
+            "slot_name": "slot_value",
+            ...
           }
+        }
 
-      Rules:
-        - You must ONLY use the DS to choose the action.
-        - You must NEVER reinterpret the user message.
-        - You must NEVER hallucinate new slot values.
-        - You must NEVER output JSON.
-        - You must NEVER output natural language.
-        - You must ALWAYS follow the intent-specific rules below.
+    Output:
+      The expected output is in the following format:
+        action_name(input_parameters)
 
-    get_game_info: |
-      Required slot: title
-      If title is null → ask_for(title)
-      Else → give_info(title, info)
+    Rules:
+      - Only output the action without any additional text.
+      - Don't include any explanations or headings in the output.
+      - If a required slot is missing → ask_for(slot_name)
+      - If all required slots are present → call the appropriate action
+      - Titles and slot values must be passed exactly as received
+      - Never invent slot names
+      - Never output natural language
+      - Never output JSON
 
-    discover_game: |
-      Souls-like rule:
-        If similar_title contains "souls", "soulslike", or "soul":
-          → propose_game(similar_title)
+  get_game_info: |
+    The user wants to find information on a game.
+    The slots are:
+      - title: title of the game the user wants info.
+      - info: type of information requested.
 
-      If ALL slots are null → ask_for(genre)
-      Else → propose_game(filled_slots)
+    The actions to be chosen from this intent are:
+    1. ask_for(title), if title slot is missing (null).
+    2. give_info(title, info), if title is found.
 
-    compare_games: |
-      Required slots: title1, title2, criteria
-      If title1 is null → ask_for(title1)
-      Else if title2 is null → ask_for(title2)
-      Else if criteria is null → ask_for(criteria)
-      Else → give_comparison(title1, title2, criteria)
+    Examples:
+    - input:
+        {
+          "intent": "get_game_info",
+          "slots": {
+            "title": null,
+            "info": "release date"
+          }
+        }
+      output: ask_for(title)
 
-    get_term_explained: |
-      If term is null → ask_for(term)
-      Else → explain_term(term)
+    - input:
+        {
+          "intent": "get_game_info",
+          "slots": {
+            "title": "Elden Ring",
+            "info": "review score"
+          }
+        }
+      output: give_info(title, review score)
 
-    add_to_wishlist: |
-      If title is null → ask_for(title)
-      Else → add_game(title)
+  discover_game: |
+    The user wants to find a new game based on some characteristics.
+    The slots are:
+      - genre
+      - price
+      - release_year
+      - platform
+      - mode
+      - similar_title
+      - required_age
+      - publisher
+      - developer
 
-    remove_from_wishlist: |
-      If title is null → ask_for(title)
-      Else → remove_game(title)
+    Additional rules:
+      - If similar_title contains the word "souls", normalize it to "dark souls iii".
+      - If genre is "indie" AND similar_title is "dark souls iii", change genre to "action".
 
-    get_wishlist: |
-      Always → give_wishlist()
+    The actions to be chosen from this intent are:
+    1. ask_for(genre), if every slot is missing (all null).
+    2. propose_game(slot_names), if at least one slot is defined.
+       Instead of "slot_names", fill in the names of the filled slots.
 
-    get_friend_games: |
-      If name is null → ask_for(name)
-      Else → give_friend_games(name)
+    Examples:
+    - input:
+        {
+          "intent": "discover_game",
+          "slots": {
+            "genre": null, "price": null, "release_year": null,
+            "platform": null, "mode": null, "similar_title": null,
+            "required_age": null, "publisher": null, "developer": null
+          }
+        }
+      output: ask_for(genre)
 
-    out_of_domain: |
-      Always → fallback()
+    - input:
+        {
+          "intent": "discover_game",
+          "slots": {
+            "genre": "Horror", "price": null, "release_year": null,
+            "platform": "windows", "mode": null, "similar_title": null,
+            "required_age": null, "publisher": null, "developer": null
+          }
+        }
+      output: propose_game(genre, platform)
+
+    - input:
+        {
+          "intent": "discover_game",
+          "slots": {
+            "genre": null, "price": "20", "release_year": null,
+            "platform": null, "mode": "multiplayer", "similar_title": null,
+            "required_age": null, "publisher": null, "developer": null
+          }
+        }
+      output: propose_game(price, mode)
+
+  compare_games: |
+    The user wants to get a comparison of two games.
+    The slots are:
+      - title1
+      - title2
+      - criteria
+
+    The actions to be chosen from this intent are:
+    1. ask_for(slot), if any slot is missing (null).
+    2. give_comparison(title1, title2, criteria), if all slots are filled.
+
+    Examples:
+    - input:
+        {
+          "intent": "compare_games",
+          "slots": {
+            "title1": "Call of Duty",
+            "title2": null,
+            "criteria": "price"
+          }
+        }
+      output: ask_for(title2)
+
+    - input:
+        {
+          "intent": "compare_games",
+          "slots": {
+            "title1": "Forza Horizon",
+            "title2": "Gran Turismo",
+            "criteria": "review"
+          }
+        }
+      output: give_comparison(title1, title2, criteria)
+
+  get_term_explained: |
+    The user wants a videogame term to be explained.
+    The slots are:
+      - term
+
+    The actions to be chosen from this intent are:
+    1. ask_for(term), if term slot is missing (null).
+    2. explain_term(term), if term is not missing.
+
+    Examples:
+    - input:
+        {
+          "intent": "get_term_explained",
+          "slots": { "term": null }
+        }
+      output: ask_for(term)
+
+    - input:
+        {
+          "intent": "get_term_explained",
+          "slots": { "term": "fps" }
+        }
+      output: explain_term(term)
+
+  add_to_wishlist: |
+    The user wants to add a videogame to the wishlist.
+    The slots are:
+      - title
+
+    The actions to be chosen from this intent are:
+    1. ask_for(title), if title slot is missing (null).
+    2. add_game(title), if title is not missing.
+
+    Examples:
+    - input:
+        {
+          "intent": "add_to_wishlist",
+          "slots": { "title": null }
+        }
+      output: ask_for(title)
+
+    - input:
+        {
+          "intent": "add_to_wishlist",
+          "slots": { "title": "Hades II" }
+        }
+      output: add_game(title)
+
+  remove_from_wishlist: |
+    The user wants to remove a videogame from their wishlist.
+    The slots are:
+      - title
+
+    The actions to be chosen from this intent are:
+    1. ask_for(title), if title slot is missing (null).
+    2. remove_game(title), if title is not missing.
+
+    Examples:
+    - input:
+        {
+          "intent": "remove_from_wishlist",
+          "slots": { "title": null }
+        }
+      output: ask_for(title)
+
+    - input:
+        {
+          "intent": "remove_from_wishlist",
+          "slots": { "title": "Cyberpunk 2077" }
+        }
+      output: remove_game(title)
+
+  get_wishlist: |
+    The user wants the system to tell them their wishlist content.
+    There are no slots.
+
+    The actions to be chosen from this intent are:
+    1. give_wishlist()
+
+    Examples:
+    - input:
+        {
+          "intent": "get_wishlist",
+          "slots": {}
+        }
+      output: give_wishlist()
+
+  get_friend_games: |
+    The user wants the system to tell them their friend's games.
+    The slots are:
+      - name
+
+    The actions to be chosen from this intent are:
+    1. ask_for(name), if name slot is missing (null).
+    2. give_friend_games(name), if name is not missing.
+
+    Examples:
+    - input:
+        {
+          "intent": "get_friend_games",
+          "slots": { "name": null }
+        }
+      output: ask_for(name)
+
+    - input:
+        {
+          "intent": "get_friend_games",
+          "slots": { "name": "David" }
+        }
+      output: give_friend_games(name)
+
+  out_of_domain: |
+    The request is outside of system capabilities.
+    There are no slots.
+
+    The action to be chosen from this intent is:
+    1. fallback()
+
+    Examples:
+    - input:
+        {
+          "intent": "out_of_domain",
+          "slots": {}
+        }
+      output: fallback()
