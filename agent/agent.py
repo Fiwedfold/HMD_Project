@@ -20,22 +20,34 @@ class DialogueAgent:
         self.kb = KnowledgeBase()
 
         # Model loader cache
-        self.loaders = {}
+        self.loaders: Dict[str, ModelLoader] = {}
 
         # Load prompts
         self.system_prompt = self._load_prompt()
 
         # Instantiate components
-        self.preproc = LLMTask(self._get_loader("preproc"), self.system_prompt["preproc"]["prompt"])
-        self.nlu = LLMTask(self._get_loader("nlu"), self.system_prompt["nlu"]["prompt"])
+        self.preproc = LLMTask(
+            self._get_loader("preproc"),
+            self.system_prompt["preproc"]["prompt"],
+        )
+        self.nlu = LLMTask(
+            self._get_loader("nlu"),
+            self.system_prompt["nlu"]["prompt"],
+        )
 
-        # DM — robust loading
+        # DM — main prompt only here, intent-specific part sera injecté à chaque tour
         dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
         dm_main = dm_block.get("main", "")
         self.dm = LLMTask(self._get_loader("dm"), dm_main)
 
-        self.nlg = LLMTask(self._get_loader("nlg"), self.system_prompt["nlg"]["prompt"]["main"])
-        self.sa = LLMTask(self._get_loader("sa"), self.system_prompt["sa"]["prompt"])
+        self.nlg = LLMTask(
+            self._get_loader("nlg"),
+            self.system_prompt["nlg"]["prompt"]["main"],
+        )
+        self.sa = LLMTask(
+            self._get_loader("sa"),
+            self.system_prompt["sa"]["prompt"],
+        )
 
         # Dialogue State Tracker
         self.dst = DST()
@@ -51,7 +63,9 @@ class DialogueAgent:
         default_model = self.model_name.get("default")
         model_name = self.model_name.get(component, default_model)
         if not model_name:
-            raise ValueError(f"model_name dict must contain a 'default' key or a key for '{component}'")
+            raise ValueError(
+                f"model_name dict must contain a 'default' key or a key for '{component}'"
+            )
 
         if model_name not in self.loaders:
             self.loaders[model_name] = ModelLoader(model_name, self.device)
@@ -129,7 +143,7 @@ class DialogueAgent:
             case "discover_game":
                 allowed = [
                     "genre", "price", "release_year", "platform", "mode",
-                    "required_age", "publisher", "developer", "similar_title"
+                    "required_age", "publisher", "developer", "similar_title",
                 ]
                 slots_for_kb = {k: v for k, v in slots.items() if k in allowed}
 
@@ -144,7 +158,11 @@ class DialogueAgent:
                 data = self.kb.discover_game(**slots_for_kb)
 
             case "compare_games":
-                slots_for_kb = {k: v for k, v in slots.items() if k != "comparison_mode"}
+                slots_for_kb = {
+                    k: v
+                    for k, v in slots.items()
+                    if k != "comparison_mode"
+                }
                 data = self.kb.compare_games(**slots_for_kb)
 
                 if "review" in data:
@@ -152,7 +170,7 @@ class DialogueAgent:
                     for title, reviews in data["review"].items():
                         enriched[title] = {
                             "summary": reviews.get("summary"),
-                            "sentiment": self.get_review_sa(reviews)
+                            "sentiment": self.get_review_sa(reviews),
                         }
                     data["review"] = enriched
 
@@ -189,7 +207,7 @@ class DialogueAgent:
             args = match.group(2).split(",")
             used_slots = {a.strip() for a in args if a.strip()}
 
-        for slot in list(cleaned["slots"].keys()):
+        for slot in list(cleaned.get("slots", {}).keys()):
             if slot not in used_slots:
                 cleaned["slots"].pop(slot, None)
 
@@ -210,8 +228,8 @@ class DialogueAgent:
 
         if len(split_input) > 1:
             multiple_intents = True
-            for input in split_input[:-1]:
-                self.history.append({"role": "user", "content": input})
+            for input_part in split_input[:-1]:
+                self.history.append({"role": "user", "content": input_part})
 
         nlu_input = user_input if len(split_input) == 0 else split_input[-1]
 
@@ -223,41 +241,63 @@ class DialogueAgent:
         ds = self.dst.get_ds()
         print(f"DST OUT->{ds}")
 
-        # DM — prompt switching + DS encapsulation + action extraction
-        intent_name = self.dst.ds["intent"]
-
-        dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
-        dm_main = dm_block.get("main", "")
-        dm_intent = dm_block.get(intent_name, "")
-
-        self.dm.change_system_prompt(dm_main + "\n" + dm_intent)
-
-        # Encapsulate DS so it is treated as structured input, not as a natural question
-        dm_input = f"### DS ###\n{json.dumps(ds, indent=2)}\n### END_DS ###"
-        raw_dm_out = self.dm.generate(dm_input)
-        print(f"DM RAW OUT->{raw_dm_out}")
-
-        # Extract the first action-like pattern: action_name(arg1, arg2, ...)
-        action_match = re.search(r'([a-zA-Z_]\w*\s*\([^)]*\))', raw_dm_out)
-        if action_match:
-            nba = action_match.group(1).strip()
+        intent_name = self.dst.ds.get("intent")
+        if intent_name is None:
+            # Pas d'intent → impossible de décider une action → fallback direct
+            nba = "fallback()"
+            ek = {}
+            cleaned_ds = self.dst.get_ds()
         else:
-            nba = "fallback()"
+            # DM — prompt switching + DS encapsulation + action extraction
+            dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
+            dm_main = dm_block.get("main", "")
+            dm_intent = dm_block.get(intent_name, "")
 
-        print(f"DM OUT->{nba}")
+            self.dm.change_system_prompt(dm_main + "\n" + dm_intent)
 
-        # KB
-        ek = self.get_knowledge(nba, self.dst.ds)
-        if "error" in ek:
-            nba = "fallback()"
-            ek = None
+            # Encapsulate DS so it is treated as structured input, not as a natural question
+            dm_input = f"### DS ###\n{json.dumps(ds, indent=2)}\n### END_DS ###"
+            raw_dm_out = self.dm.generate(dm_input)
+            print(f"DM RAW OUT->{raw_dm_out}")
 
-        cleaned_ds = self._clean_ds_for_nlg(self.dst.get_ds(), nba)
+            # Extract a valid DM action: one of the known names + (...)
+            action_pattern = (
+                r'\b('
+                r'ask_for|'
+                r'give_info|'
+                r'give_discovery|'
+                r'give_comparison|'
+                r'explain_term|'
+                r'give_friend_games|'
+                r'add_to_wishlist|'
+                r'remove_from_wishlist|'
+                r'show_wishlist|'
+                r'fallback'
+                r')\s*\([^)]*\)'
+            )
+            action_match = re.search(action_pattern, raw_dm_out)
+
+            if action_match:
+                nba = action_match.group(0).strip()
+            else:
+                nba = "fallback()"
+
+            print(f"DM OUT->{nba}")
+
+            # KB
+            ek = self.get_knowledge(nba, self.dst.ds)
+            if "error" in ek:
+                nba = "fallback()"
+                ek = None
+
+            cleaned_ds = self._clean_ds_for_nlg(self.dst.get_ds(), nba)
 
         # NLG
         self.nlg.change_system_prompt(
             self.system_prompt["nlg"]["prompt"]["main"]
             + self.system_prompt["nlg"]["prompt"][intent_name]
+            if intent_name in self.system_prompt["nlg"]["prompt"]
+            else self.system_prompt["nlg"]["prompt"]["main"]
         )
 
         nlg_input = (
