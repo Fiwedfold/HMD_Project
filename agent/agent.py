@@ -28,7 +28,14 @@ class DialogueAgent:
         # Instantiate components
         self.preproc = LLMTask(self._get_loader("preproc"), self.system_prompt["preproc"]["prompt"])
         self.nlu = LLMTask(self._get_loader("nlu"), self.system_prompt["nlu"]["prompt"])
-        self.dm = LLMTask(self._get_loader("dm"), self.system_prompt["dm"]["prompt"]["main"])
+
+        # -----------------------------
+        # DM — FIXED, ROBUST LOADING
+        # -----------------------------
+        dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
+        dm_main = dm_block.get("main", "")
+        self.dm = LLMTask(self._get_loader("dm"), dm_main)
+
         self.nlg = LLMTask(self._get_loader("nlg"), self.system_prompt["nlg"]["prompt"]["main"])
         self.sa = LLMTask(self._get_loader("sa"), self.system_prompt["sa"]["prompt"])
 
@@ -134,7 +141,6 @@ class DialogueAgent:
                     sim_str = str(sim).lower()
                     if "soul" in sim_str:
                         slots_for_kb["similar_title"] = "dark souls iii"
-                        # Remove genre hallucination
                         slots_for_kb.pop("genre", None)
 
                 data = self.kb.discover_game(**slots_for_kb)
@@ -173,17 +179,11 @@ class DialogueAgent:
         return data
 
     # ---------------------------------------------------------
-    # DS CLEANING BEFORE NLG (THE FIX)
+    # DS CLEANING BEFORE NLG
     # ---------------------------------------------------------
     def _clean_ds_for_nlg(self, ds: dict, nba: str) -> dict:
-        """
-        Remove irrelevant or hallucinated slots before sending DS to NLG.
-        Ensures NLG never sees 'genre = indie' for Souls-like queries.
-        """
-
         cleaned = json.loads(json.dumps(ds))  # deep copy
 
-        # Extract slots used in NBA
         match = re.match(r'^([a-zA-Z_]\w*)\((.*)\)$', nba.strip())
         used_slots = set()
 
@@ -191,7 +191,6 @@ class DialogueAgent:
             args = match.group(2).split(",")
             used_slots = {a.strip() for a in args if a.strip()}
 
-        # Remove slots not used by NBA
         for slot in list(cleaned["slots"].keys()):
             if slot not in used_slots:
                 cleaned["slots"].pop(slot, None)
@@ -226,12 +225,17 @@ class DialogueAgent:
         ds = self.dst.get_ds()
         print(f"DST OUT->{ds}")
 
-        # DM
+        # -----------------------------
+        # DM — FIXED PROMPT SWITCHING
+        # -----------------------------
         intent_name = self.dst.ds["intent"]
-        self.dm.change_system_prompt(
-            self.system_prompt["dm"]["prompt"]["main"]
-            + self.system_prompt["dm"]["prompt"][intent_name]
-        )
+
+        dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
+        dm_main = dm_block.get("main", "")
+        dm_intent = dm_block.get(intent_name, "")
+
+        self.dm.change_system_prompt(dm_main + "\n" + dm_intent)
+
         nba = self.dm.generate(ds)
         print(f"DM OUT->{nba}")
 
@@ -241,7 +245,6 @@ class DialogueAgent:
             nba = "fallback()"
             ek = None
 
-        # ✅ CLEAN DS BEFORE NLG
         cleaned_ds = self._clean_ds_for_nlg(self.dst.get_ds(), nba)
 
         # NLG
@@ -260,7 +263,6 @@ class DialogueAgent:
 
         response = self.nlg.generate(nlg_input)
 
-        # Update history
         self.history.append({"role": "user", "content": user_input})
         self.history.append({"role": "assistant", "content": response})
 

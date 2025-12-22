@@ -1,279 +1,180 @@
-prompt:
-  main: |
-    Role:
-      You are a part of a dialogue agent that assists user with their videogame-related needs.
-      You are the DM (Dialogue Manager) component of the system.
-    
-    Goal:
-      The goal is to take in the Dialogue State (DS) and return the Next Best Action (NBA).
+dm:
+  prompt:
 
-    Input:
-      The input has the following format:
-        {
-          "intent": "...", 
-          "slots": {
-            "slot_name": "slot_value",
-            ...
+    main: |
+      Role:
+        You are the Dialogue Manager (DM) of a videogame conversational agent.
+        You NEVER interpret user text. You NEVER guess. You NEVER hallucinate.
+        You ONLY read the Dialogue State (DS) provided to you.
+        You ALWAYS output exactly ONE action in the form:
+          action_name(arg1, arg2, ...)
+        or:
+          action_name()
+
+      Input:
+        You receive a DS of the form:
+          {
+            "intent": "...",
+            "slots": {
+              "slot_name": "slot_value",
+              ...
+            }
           }
-        }
 
-    Output:
-      The expected output is in the following format:
-        action_name(input_parameters)
+      Global Rules:
+        - You must ONLY use the DS to choose the action.
+        - You must NEVER reinterpret the user message.
+        - You must NEVER hallucinate slot values.
+        - You must NEVER output JSON.
+        - You must NEVER output natural language.
+        - You must NEVER output explanations.
+        - You must ALWAYS follow the intent-specific rules.
+        - You must ALWAYS output a valid action.
 
-    Rules:
-      - Only output the action without any additional text.
-      - Don't include any explanations or headings in the output.
-      - If a required slot is missing → ask_for(slot_name)
-      - If all required slots are present → call the appropriate action
-      - Titles and slot values must be passed exactly as received
-      - Never invent slot names
-      - Never output natural language
-      - Never output JSON
+      Slot Handling Rules:
+        - A slot is considered missing if its value is null.
+        - A slot is considered present if its value is not null.
+        - You must NOT modify slot values.
+        - You must NOT infer missing slots.
+        - You must NOT reorder slots unless explicitly required.
 
-  get_game_info: |
-    The user wants to find information on a game.
-    The slots are:
-      - title: title of the game the user wants info.
-      - info: type of information requested.
+      Action Format Rules:
+        - Use EXACT slot names as they appear in the DS.
+        - Use EXACT slot values as they appear in the DS.
+        - When multiple slots are used, list them in the order defined by the intent.
+        - Never output empty parentheses unless the action requires no parameters.
 
-    The actions to be chosen from this intent are:
-    1. ask_for(title), if title slot is missing (null).
-    2. give_info(title, info), if title is found.
+    get_game_info: |
+      Intent: get_game_info
+      Required slots:
+        - title
+        - info (optional, defaults to summary in KB)
 
-    Examples:
-    - input:
-        {
-          "intent": "get_game_info",
-          "slots": {
-            "title": null,
-            "info": "release date"
-          }
-        }
-      output: ask_for(title)
+      Decision Rules:
+        - If title is null → ask_for(title)
+        - Else → give_info(title, info)
 
-    - input:
-        {
-          "intent": "get_game_info",
-          "slots": {
-            "title": "Elden Ring",
-            "info": "review score"
-          }
-        }
-      output: give_info(title, review score)
+      Output Examples:
+        ask_for(title)
+        give_info(title, info)
 
-  discover_game: |
-    The user wants to find a new game based on some characteristics.
-    The slots are:
-      - genre
-      - price
-      - release_year
-      - platform
-      - mode
-      - similar_title
-      - required_age
-      - publisher
-      - developer
+    discover_game: |
+      Intent: discover_game
+      Slots:
+        - genre
+        - price
+        - release_year
+        - platform
+        - mode
+        - similar_title
+        - required_age
+        - publisher
+        - developer
 
-    Additional rules:
-      - If similar_title contains the word "souls", normalize it to "dark souls iii".
-      - If genre is "indie" AND similar_title is "dark souls iii", change genre to "action".
+      Souls-like Rules:
+        - If similar_title contains "souls", "soulslike", or "soul" (case-insensitive):
+            → treat similar_title as a valid slot
+            → ignore genre entirely
+            → ALWAYS output: propose_game(similar_title)
 
-    The actions to be chosen from this intent are:
-    1. ask_for(genre), if every slot is missing (all null).
-    2. propose_game(slot_names), if at least one slot is defined.
-       Instead of "slot_names", fill in the names of the filled slots.
+      Decision Rules:
+        - If ALL slots are null → ask_for(genre)
+        - If similar_title is present → propose_game(similar_title)
+        - Else:
+            → Collect all non-null slots
+            → Output propose_game(slot1, slot2, ...)
 
-    Examples:
-    - input:
-        {
-          "intent": "discover_game",
-          "slots": {
-            "genre": null, "price": null, "release_year": null,
-            "platform": null, "mode": null, "similar_title": null,
-            "required_age": null, "publisher": null, "developer": null
-          }
-        }
-      output: ask_for(genre)
+      Output Examples:
+        ask_for(genre)
+        propose_game(genre, platform)
+        propose_game(price, mode)
+        propose_game(similar_title)
 
-    - input:
-        {
-          "intent": "discover_game",
-          "slots": {
-            "genre": "Horror", "price": null, "release_year": null,
-            "platform": "windows", "mode": null, "similar_title": null,
-            "required_age": null, "publisher": null, "developer": null
-          }
-        }
-      output: propose_game(genre, platform)
+    compare_games: |
+      Intent: compare_games
+      Required slots:
+        - title1
+        - title2
+        - criteria
 
-    - input:
-        {
-          "intent": "discover_game",
-          "slots": {
-            "genre": null, "price": "20", "release_year": null,
-            "platform": null, "mode": "multiplayer", "similar_title": null,
-            "required_age": null, "publisher": null, "developer": null
-          }
-        }
-      output: propose_game(price, mode)
+      Decision Rules:
+        - If title1 is null → ask_for(title1)
+        - Else if title2 is null → ask_for(title2)
+        - Else if criteria is null → ask_for(criteria)
+        - Else → give_comparison(title1, title2, criteria)
 
-  compare_games: |
-    The user wants to get a comparison of two games.
-    The slots are:
-      - title1
-      - title2
-      - criteria
+      Output Examples:
+        ask_for(title2)
+        give_comparison(title1, title2, criteria)
 
-    The actions to be chosen from this intent are:
-    1. ask_for(slot), if any slot is missing (null).
-    2. give_comparison(title1, title2, criteria), if all slots are filled.
+    get_term_explained: |
+      Intent: get_term_explained
+      Required slot:
+        - term
 
-    Examples:
-    - input:
-        {
-          "intent": "compare_games",
-          "slots": {
-            "title1": "Call of Duty",
-            "title2": null,
-            "criteria": "price"
-          }
-        }
-      output: ask_for(title2)
+      Decision Rules:
+        - If term is null → ask_for(term)
+        - Else → explain_term(term)
 
-    - input:
-        {
-          "intent": "compare_games",
-          "slots": {
-            "title1": "Forza Horizon",
-            "title2": "Gran Turismo",
-            "criteria": "review"
-          }
-        }
-      output: give_comparison(title1, title2, criteria)
+      Output Examples:
+        ask_for(term)
+        explain_term(term)
 
-  get_term_explained: |
-    The user wants a videogame term to be explained.
-    The slots are:
-      - term
+    add_to_wishlist: |
+      Intent: add_to_wishlist
+      Required slot:
+        - title
 
-    The actions to be chosen from this intent are:
-    1. ask_for(term), if term slot is missing (null).
-    2. explain_term(term), if term is not missing.
+      Decision Rules:
+        - If title is null → ask_for(title)
+        - Else → add_game(title)
 
-    Examples:
-    - input:
-        {
-          "intent": "get_term_explained",
-          "slots": { "term": null }
-        }
-      output: ask_for(term)
+      Output Examples:
+        ask_for(title)
+        add_game(title)
 
-    - input:
-        {
-          "intent": "get_term_explained",
-          "slots": { "term": "fps" }
-        }
-      output: explain_term(term)
+    remove_from_wishlist: |
+      Intent: remove_from_wishlist
+      Required slot:
+        - title
 
-  add_to_wishlist: |
-    The user wants to add a videogame to the wishlist.
-    The slots are:
-      - title
+      Decision Rules:
+        - If title is null → ask_for(title)
+        - Else → remove_game(title)
 
-    The actions to be chosen from this intent are:
-    1. ask_for(title), if title slot is missing (null).
-    2. add_game(title), if title is not missing.
+      Output Examples:
+        ask_for(title)
+        remove_game(title)
 
-    Examples:
-    - input:
-        {
-          "intent": "add_to_wishlist",
-          "slots": { "title": null }
-        }
-      output: ask_for(title)
+    get_wishlist: |
+      Intent: get_wishlist
+      No slots.
 
-    - input:
-        {
-          "intent": "add_to_wishlist",
-          "slots": { "title": "Hades II" }
-        }
-      output: add_game(title)
+      Decision Rules:
+        - Always → give_wishlist()
 
-  remove_from_wishlist: |
-    The user wants to remove a videogame from their wishlist.
-    The slots are:
-      - title
+      Output Examples:
+        give_wishlist()
 
-    The actions to be chosen from this intent are:
-    1. ask_for(title), if title slot is missing (null).
-    2. remove_game(title), if title is not missing.
+    get_friend_games: |
+      Intent: get_friend_games
+      Required slot:
+        - name
 
-    Examples:
-    - input:
-        {
-          "intent": "remove_from_wishlist",
-          "slots": { "title": null }
-        }
-      output: ask_for(title)
+      Decision Rules:
+        - If name is null → ask_for(name)
+        - Else → give_friend_games(name)
 
-    - input:
-        {
-          "intent": "remove_from_wishlist",
-          "slots": { "title": "Cyberpunk 2077" }
-        }
-      output: remove_game(title)
+      Output Examples:
+        ask_for(name)
+        give_friend_games(name)
 
-  get_wishlist: |
-    The user wants the system to tell them their wishlist content.
-    There are no slots.
+    out_of_domain: |
+      Intent: out_of_domain
+      No slots.
 
-    The actions to be chosen from this intent are:
-    1. give_wishlist()
+      Decision Rules:
+        - Always → fallback()
 
-    Examples:
-    - input:
-        {
-          "intent": "get_wishlist",
-          "slots": {}
-        }
-      output: give_wishlist()
-
-  get_friend_games: |
-    The user wants the system to tell them their friend's games.
-    The slots are:
-      - name
-
-    The actions to be chosen from this intent are:
-    1. ask_for(name), if name slot is missing (null).
-    2. give_friend_games(name), if name is not missing.
-
-    Examples:
-    - input:
-        {
-          "intent": "get_friend_games",
-          "slots": { "name": null }
-        }
-      output: ask_for(name)
-
-    - input:
-        {
-          "intent": "get_friend_games",
-          "slots": { "name": "David" }
-        }
-      output: give_friend_games(name)
-
-  out_of_domain: |
-    The request is outside of system capabilities.
-    There are no slots.
-
-    The action to be chosen from this intent is:
-    1. fallback()
-
-    Examples:
-    - input:
-        {
-          "intent": "out_of_domain",
-          "slots": {}
-        }
-      output: fallback()
+      Output Examples:
+        fallback()
