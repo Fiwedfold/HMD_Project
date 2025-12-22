@@ -12,6 +12,6 @@ MODELS: Dict[str, Tuple[str, Callable[..., Any], Callable[..., Any]]] = {
     "qwen3": (
         "Qwen/Qwen3-4B-Instruct-2507",
         partial(AutoModelForCausalLM.from_pretrained, trust_remote_code=True),
-        hf_prepare_text
+        None
     ),
 }
