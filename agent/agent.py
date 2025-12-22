@@ -223,7 +223,7 @@ class DialogueAgent:
         ds = self.dst.get_ds()
         print(f"DST OUT->{ds}")
 
-        # DM — prompt switching + DS encapsulation
+        # DM — prompt switching + DS encapsulation + action extraction
         intent_name = self.dst.ds["intent"]
 
         dm_block = self.system_prompt.get("dm", {}).get("prompt", {})
@@ -232,9 +232,18 @@ class DialogueAgent:
 
         self.dm.change_system_prompt(dm_main + "\n" + dm_intent)
 
-        # Encapsulate DS to avoid it being treated as a natural question
+        # Encapsulate DS so it is treated as structured input, not as a natural question
         dm_input = f"### DS ###\n{json.dumps(ds, indent=2)}\n### END_DS ###"
-        nba = self.dm.generate(dm_input)
+        raw_dm_out = self.dm.generate(dm_input)
+        print(f"DM RAW OUT->{raw_dm_out}")
+
+        # Extract the first action-like pattern: action_name(arg1, arg2, ...)
+        action_match = re.search(r'([a-zA-Z_]\w*\s*\([^)]*\))', raw_dm_out)
+        if action_match:
+            nba = action_match.group(1).strip()
+        else:
+            nba = "fallback()"
+
         print(f"DM OUT->{nba}")
 
         # KB
