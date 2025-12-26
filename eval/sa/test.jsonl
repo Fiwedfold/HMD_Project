@@ -1,0 +1,300 @@
+{"input": "The game is decent but forgettable. For real.", "expected": ["neutral"]}
+{"input": "I uninstalled it after one hour, horrible. Seriously.", "expected": ["negative"]}
+{"input": "This is easily a 10/10 for me. Honestly.", "expected": ["positive"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. No joke.", "expected": ["neutral"]}
+{"input": "It's okay, nothing special. Just saying.", "expected": ["neutral"]}
+{"input": "I guess it's alright. For real.", "expected": ["neutral"]}
+{"input": "Nothing works properly, it's a disaster. To be honest.", "expected": ["negative"]}
+{"input": "Not bad, not great, just average. To be honest.", "expected": ["neutral"]}
+{"input": "I can't stop playing, it's so good. In my opinion.", "expected": ["positive"]}
+{"input": "I uninstalled it after one hour, horrible. For real.", "expected": ["negative"]}
+{"input": "I absolutely loved this game, it was fantastic. In my opinion.", "expected": ["positive"]}
+{"input": "The story is boring and the combat is awful. Seriously.", "expected": ["negative"]}
+{"input": "This game is terrible and a complete waste of money. For real.", "expected": ["negative"]}
+{"input": "This game exceeded all my expectations. To be honest.", "expected": ["positive"]}
+{"input": "This game is terrible and a complete waste of money. To be honest.", "expected": ["negative"]}
+{"input": "The story is boring and the combat is awful.", "expected": ["negative"]}
+{"input": "The game is decent but forgettable. In my opinion.", "expected": ["neutral"]}
+{"input": "This game exceeded all my expectations. Honestly.", "expected": ["positive"]}
+{"input": "Mixed feelings overall. Just saying.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more. Really.", "expected": ["neutral"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Really.", "expected": ["neutral"]}
+{"input": "The combat feels great and the story is wonderful. Just saying.", "expected": ["positive"]}
+{"input": "Terrible performance and constant crashes. No joke.", "expected": ["negative"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Really.", "expected": ["neutral"]}
+{"input": "Nothing works properly, it's a disaster. To be honest.", "expected": ["negative"]}
+{"input": "I regret buying this, it's awful.", "expected": ["negative"]}
+{"input": "I regret buying this, it's awful. Seriously.", "expected": ["negative"]}
+{"input": "The gameplay is clunky and frustrating. Really.", "expected": ["negative"]}
+{"input": "Some parts are good, others not so much. To be honest.", "expected": ["neutral"]}
+{"input": "Amazing gameplay and beautiful graphics. To be honest.", "expected": ["positive"]}
+{"input": "Terrible performance and constant crashes. In my opinion.", "expected": ["negative"]}
+{"input": "Mixed feelings overall. In my opinion.", "expected": ["neutral"]}
+{"input": "I absolutely loved this game, it was fantastic. Honestly.", "expected": ["positive"]}
+{"input": "I don't really feel strongly about this game.", "expected": ["neutral"]}
+{"input": "I regret buying this, it's awful. For real.", "expected": ["negative"]}
+{"input": "It's okay, nothing special. Really.", "expected": ["neutral"]}
+{"input": "One of the best experiences I've had in years. Just saying.", "expected": ["positive"]}
+{"input": "Brilliant design and super fun to play.", "expected": ["positive"]}
+{"input": "It's okay, nothing special.", "expected": ["neutral"]}
+{"input": "A masterpiece, truly unforgettable. Honestly.", "expected": ["positive"]}
+{"input": "This is easily a 10/10 for me. Really.", "expected": ["positive"]}
+{"input": "Some parts are good, others not so much. Overall.", "expected": ["neutral"]}
+{"input": "Terrible performance and constant crashes. No joke.", "expected": ["negative"]}
+{"input": "The worst experience I've had in a long time. For real.", "expected": ["negative"]}
+{"input": "The combat feels great and the story is wonderful. Seriously.", "expected": ["positive"]}
+{"input": "I absolutely loved this game, it was fantastic. For real.", "expected": ["positive"]}
+{"input": "The story is boring and the combat is awful.", "expected": ["negative"]}
+{"input": "This game is terrible and a complete waste of money. Just saying.", "expected": ["negative"]}
+{"input": "Nothing works properly, it's a disaster.", "expected": ["negative"]}
+{"input": "The story is boring and the combat is awful. Overall.", "expected": ["negative"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Honestly.", "expected": ["neutral"]}
+{"input": "Brilliant design and super fun to play. Seriously.", "expected": ["positive"]}
+{"input": "I regret buying this, it's awful. To be honest.", "expected": ["negative"]}
+{"input": "Amazing gameplay and beautiful graphics. Honestly.", "expected": ["positive"]}
+{"input": "Amazing gameplay and beautiful graphics. For real.", "expected": ["positive"]}
+{"input": "I don't really feel strongly about this game. In my opinion.", "expected": ["neutral"]}
+{"input": "The combat feels great and the story is wonderful. Really.", "expected": ["positive"]}
+{"input": "This is trash, do not buy it. Really.", "expected": ["negative"]}
+{"input": "I don't really feel strongly about this game.", "expected": ["neutral"]}
+{"input": "The gameplay is clunky and frustrating. For real.", "expected": ["negative"]}
+{"input": "The gameplay is clunky and frustrating. To be honest.", "expected": ["negative"]}
+{"input": "It's okay, nothing special. Just saying.", "expected": ["neutral"]}
+{"input": "Nothing works properly, it's a disaster. Just saying.", "expected": ["negative"]}
+{"input": "This is easily a 10/10 for me. To be honest.", "expected": ["positive"]}
+{"input": "This is easily a 10/10 for me. Overall.", "expected": ["positive"]}
+{"input": "The worst experience I've had in a long time. Overall.", "expected": ["negative"]}
+{"input": "I uninstalled it after one hour, horrible. Honestly.", "expected": ["negative"]}
+{"input": "I enjoyed every minute of it. To be honest.", "expected": ["positive"]}
+{"input": "I regret buying this, it's awful. Honestly.", "expected": ["negative"]}
+{"input": "A masterpiece, truly unforgettable. Really.", "expected": ["positive"]}
+{"input": "This is trash, do not buy it. Honestly.", "expected": ["negative"]}
+{"input": "Terrible performance and constant crashes. Just saying.", "expected": ["negative"]}
+{"input": "I can't stop playing, it's so good. Honestly.", "expected": ["positive"]}
+{"input": "This is easily a 10/10 for me. Seriously.", "expected": ["positive"]}
+{"input": "Terrible performance and constant crashes. To be honest.", "expected": ["negative"]}
+{"input": "Nothing works properly, it's a disaster.", "expected": ["negative"]}
+{"input": "I absolutely loved this game, it was fantastic.", "expected": ["positive"]}
+{"input": "One of the best experiences I've had in years.", "expected": ["positive"]}
+{"input": "I hate how buggy this game is. Just saying.", "expected": ["negative"]}
+{"input": "Some parts are good, others not so much. Overall.", "expected": ["neutral"]}
+{"input": "I regret buying this, it's awful. In my opinion.", "expected": ["negative"]}
+{"input": "It's acceptable, nothing more. To be honest.", "expected": ["neutral"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. For real.", "expected": ["neutral"]}
+{"input": "The game is decent but forgettable. Really.", "expected": ["neutral"]}
+{"input": "The combat feels great and the story is wonderful. Overall.", "expected": ["positive"]}
+{"input": "The gameplay is clunky and frustrating. In my opinion.", "expected": ["negative"]}
+{"input": "The worst experience I've had in a long time. To be honest.", "expected": ["negative"]}
+{"input": "The worst experience I've had in a long time. In my opinion.", "expected": ["negative"]}
+{"input": "The worst experience I've had in a long time. Just saying.", "expected": ["negative"]}
+{"input": "The game is decent but forgettable. Overall.", "expected": ["neutral"]}
+{"input": "I hate how buggy this game is. Honestly.", "expected": ["negative"]}
+{"input": "Not bad, not great, just average. Seriously.", "expected": ["neutral"]}
+{"input": "I don't really feel strongly about this game. In my opinion.", "expected": ["neutral"]}
+{"input": "I absolutely loved this game, it was fantastic. Seriously.", "expected": ["positive"]}
+{"input": "It's okay, nothing special. Overall.", "expected": ["neutral"]}
+{"input": "This is easily a 10/10 for me. Overall.", "expected": ["positive"]}
+{"input": "Not bad, not great, just average. Really.", "expected": ["neutral"]}
+{"input": "The worst experience I've had in a long time. Really.", "expected": ["negative"]}
+{"input": "I regret buying this, it's awful. Just saying.", "expected": ["negative"]}
+{"input": "A masterpiece, truly unforgettable. No joke.", "expected": ["positive"]}
+{"input": "This game is terrible and a complete waste of money. No joke.", "expected": ["negative"]}
+{"input": "The combat feels great and the story is wonderful. In my opinion.", "expected": ["positive"]}
+{"input": "A masterpiece, truly unforgettable. Seriously.", "expected": ["positive"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Really.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more. Seriously.", "expected": ["neutral"]}
+{"input": "The game is decent but forgettable. Seriously.", "expected": ["neutral"]}
+{"input": "Terrible performance and constant crashes. To be honest.", "expected": ["negative"]}
+{"input": "Amazing gameplay and beautiful graphics. Really.", "expected": ["positive"]}
+{"input": "The game is decent but forgettable. For real.", "expected": ["neutral"]}
+{"input": "Not bad, not great, just average. For real.", "expected": ["neutral"]}
+{"input": "I guess it's alright. In my opinion.", "expected": ["neutral"]}
+{"input": "I uninstalled it after one hour, horrible. To be honest.", "expected": ["negative"]}
+{"input": "I can't stop playing, it's so good. In my opinion.", "expected": ["positive"]}
+{"input": "I uninstalled it after one hour, horrible. No joke.", "expected": ["negative"]}
+{"input": "I can't stop playing, it's so good. Overall.", "expected": ["positive"]}
+{"input": "Mixed feelings overall. Honestly.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more. No joke.", "expected": ["neutral"]}
+{"input": "I enjoyed every minute of it. Really.", "expected": ["positive"]}
+{"input": "The combat feels great and the story is wonderful. To be honest.", "expected": ["positive"]}
+{"input": "One of the best experiences I've had in years. In my opinion.", "expected": ["positive"]}
+{"input": "Amazing gameplay and beautiful graphics. Overall.", "expected": ["positive"]}
+{"input": "This is easily a 10/10 for me. In my opinion.", "expected": ["positive"]}
+{"input": "The gameplay is clunky and frustrating.", "expected": ["negative"]}
+{"input": "This is easily a 10/10 for me. Really.", "expected": ["positive"]}
+{"input": "I can't stop playing, it's so good. For real.", "expected": ["positive"]}
+{"input": "Some parts are good, others not so much. Really.", "expected": ["neutral"]}
+{"input": "I absolutely loved this game, it was fantastic. Honestly.", "expected": ["positive"]}
+{"input": "I can't stop playing, it's so good. For real.", "expected": ["positive"]}
+{"input": "I guess it's alright.", "expected": ["neutral"]}
+{"input": "This is easily a 10/10 for me. Really.", "expected": ["positive"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Seriously.", "expected": ["neutral"]}
+{"input": "The story is boring and the combat is awful. No joke.", "expected": ["negative"]}
+{"input": "I absolutely loved this game, it was fantastic. In my opinion.", "expected": ["positive"]}
+{"input": "Mixed feelings overall. In my opinion.", "expected": ["neutral"]}
+{"input": "I regret buying this, it's awful.", "expected": ["negative"]}
+{"input": "I enjoyed every minute of it. Overall.", "expected": ["positive"]}
+{"input": "It's acceptable, nothing more. Seriously.", "expected": ["neutral"]}
+{"input": "This is easily a 10/10 for me. Really.", "expected": ["positive"]}
+{"input": "Brilliant design and super fun to play. Overall.", "expected": ["positive"]}
+{"input": "I don't really feel strongly about this game.", "expected": ["neutral"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. No joke.", "expected": ["neutral"]}
+{"input": "Nothing works properly, it's a disaster. Really.", "expected": ["negative"]}
+{"input": "This game is terrible and a complete waste of money. Overall.", "expected": ["negative"]}
+{"input": "Amazing gameplay and beautiful graphics.", "expected": ["positive"]}
+{"input": "I regret buying this, it's awful.", "expected": ["negative"]}
+{"input": "This game is terrible and a complete waste of money. Just saying.", "expected": ["negative"]}
+{"input": "The game is decent but forgettable.", "expected": ["neutral"]}
+{"input": "I guess it's alright. To be honest.", "expected": ["neutral"]}
+{"input": "I regret buying this, it's awful. Honestly.", "expected": ["negative"]}
+{"input": "I regret buying this, it's awful. For real.", "expected": ["negative"]}
+{"input": "One of the best experiences I've had in years. Really.", "expected": ["positive"]}
+{"input": "Nothing works properly, it's a disaster. Overall.", "expected": ["negative"]}
+{"input": "It's okay, nothing special. Seriously.", "expected": ["neutral"]}
+{"input": "I regret buying this, it's awful. Overall.", "expected": ["negative"]}
+{"input": "It's acceptable, nothing more. Honestly.", "expected": ["neutral"]}
+{"input": "I hate how buggy this game is. Just saying.", "expected": ["negative"]}
+{"input": "The gameplay is clunky and frustrating. Overall.", "expected": ["negative"]}
+{"input": "Brilliant design and super fun to play. In my opinion.", "expected": ["positive"]}
+{"input": "It's okay, nothing special. Really.", "expected": ["neutral"]}
+{"input": "I guess it's alright. In my opinion.", "expected": ["neutral"]}
+{"input": "I can't stop playing, it's so good. Really.", "expected": ["positive"]}
+{"input": "I hate how buggy this game is.", "expected": ["negative"]}
+{"input": "The game is decent but forgettable. Really.", "expected": ["neutral"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Overall.", "expected": ["neutral"]}
+{"input": "This is trash, do not buy it. Honestly.", "expected": ["negative"]}
+{"input": "The story is boring and the combat is awful. Seriously.", "expected": ["negative"]}
+{"input": "I hate how buggy this game is. To be honest.", "expected": ["negative"]}
+{"input": "The game is decent but forgettable. To be honest.", "expected": ["neutral"]}
+{"input": "I absolutely loved this game, it was fantastic. Overall.", "expected": ["positive"]}
+{"input": "The story is boring and the combat is awful. No joke.", "expected": ["negative"]}
+{"input": "I enjoyed every minute of it. No joke.", "expected": ["positive"]}
+{"input": "This is trash, do not buy it. Seriously.", "expected": ["negative"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Honestly.", "expected": ["neutral"]}
+{"input": "The worst experience I've had in a long time. To be honest.", "expected": ["negative"]}
+{"input": "Terrible performance and constant crashes. Really.", "expected": ["negative"]}
+{"input": "A masterpiece, truly unforgettable. Just saying.", "expected": ["positive"]}
+{"input": "Amazing gameplay and beautiful graphics. Really.", "expected": ["positive"]}
+{"input": "This game is terrible and a complete waste of money. Seriously.", "expected": ["negative"]}
+{"input": "I absolutely loved this game, it was fantastic. Just saying.", "expected": ["positive"]}
+{"input": "I hate how buggy this game is. In my opinion.", "expected": ["negative"]}
+{"input": "This is trash, do not buy it. Just saying.", "expected": ["negative"]}
+{"input": "A masterpiece, truly unforgettable. Seriously.", "expected": ["positive"]}
+{"input": "Mixed feelings overall. For real.", "expected": ["neutral"]}
+{"input": "I absolutely loved this game, it was fantastic. No joke.", "expected": ["positive"]}
+{"input": "The game is decent but forgettable. No joke.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more. Just saying.", "expected": ["neutral"]}
+{"input": "This is easily a 10/10 for me. Overall.", "expected": ["positive"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. For real.", "expected": ["neutral"]}
+{"input": "The worst experience I've had in a long time. Seriously.", "expected": ["negative"]}
+{"input": "The game is decent but forgettable. To be honest.", "expected": ["neutral"]}
+{"input": "I guess it's alright. Overall.", "expected": ["neutral"]}
+{"input": "I uninstalled it after one hour, horrible. To be honest.", "expected": ["negative"]}
+{"input": "I don't really feel strongly about this game. In my opinion.", "expected": ["neutral"]}
+{"input": "This game exceeded all my expectations.", "expected": ["positive"]}
+{"input": "I absolutely loved this game, it was fantastic. Honestly.", "expected": ["positive"]}
+{"input": "It's okay, nothing special. Honestly.", "expected": ["neutral"]}
+{"input": "The game is decent but forgettable. Just saying.", "expected": ["neutral"]}
+{"input": "The gameplay is clunky and frustrating. For real.", "expected": ["negative"]}
+{"input": "One of the best experiences I've had in years. Seriously.", "expected": ["positive"]}
+{"input": "I absolutely loved this game, it was fantastic. In my opinion.", "expected": ["positive"]}
+{"input": "A masterpiece, truly unforgettable. Honestly.", "expected": ["positive"]}
+{"input": "One of the best experiences I've had in years. Really.", "expected": ["positive"]}
+{"input": "Some parts are good, others not so much. To be honest.", "expected": ["neutral"]}
+{"input": "Brilliant design and super fun to play. Seriously.", "expected": ["positive"]}
+{"input": "Mixed feelings overall. In my opinion.", "expected": ["neutral"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Seriously.", "expected": ["neutral"]}
+{"input": "The game is decent but forgettable. Seriously.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more. Really.", "expected": ["neutral"]}
+{"input": "Hard to say if I like it or not. Overall.", "expected": ["neutral"]}
+{"input": "The worst experience I've had in a long time. In my opinion.", "expected": ["negative"]}
+{"input": "A masterpiece, truly unforgettable. Really.", "expected": ["positive"]}
+{"input": "Brilliant design and super fun to play. Just saying.", "expected": ["positive"]}
+{"input": "I absolutely loved this game, it was fantastic. For real.", "expected": ["positive"]}
+{"input": "This is trash, do not buy it. For real.", "expected": ["negative"]}
+{"input": "I uninstalled it after one hour, horrible. For real.", "expected": ["negative"]}
+{"input": "Nothing works properly, it's a disaster. Overall.", "expected": ["negative"]}
+{"input": "This is trash, do not buy it. For real.", "expected": ["negative"]}
+{"input": "I absolutely loved this game, it was fantastic. Seriously.", "expected": ["positive"]}
+{"input": "It's acceptable, nothing more. To be honest.", "expected": ["neutral"]}
+{"input": "One of the best experiences I've had in years. Seriously.", "expected": ["positive"]}
+{"input": "One of the best experiences I've had in years. Honestly.", "expected": ["positive"]}
+{"input": "Brilliant design and super fun to play. Just saying.", "expected": ["positive"]}
+{"input": "Brilliant design and super fun to play. Overall.", "expected": ["positive"]}
+{"input": "I regret buying this, it's awful. To be honest.", "expected": ["negative"]}
+{"input": "One of the best experiences I've had in years. In my opinion.", "expected": ["positive"]}
+{"input": "Some parts are good, others not so much. No joke.", "expected": ["neutral"]}
+{"input": "The gameplay is clunky and frustrating. To be honest.", "expected": ["negative"]}
+{"input": "I uninstalled it after one hour, horrible. In my opinion.", "expected": ["negative"]}
+{"input": "I regret buying this, it's awful. For real.", "expected": ["negative"]}
+{"input": "Nothing works properly, it's a disaster. Honestly.", "expected": ["negative"]}
+{"input": "Some parts are good, others not so much. Honestly.", "expected": ["neutral"]}
+{"input": "I hate how buggy this game is. To be honest.", "expected": ["negative"]}
+{"input": "A masterpiece, truly unforgettable. Really.", "expected": ["positive"]}
+{"input": "This game exceeded all my expectations. Just saying.", "expected": ["positive"]}
+{"input": "This is easily a 10/10 for me. To be honest.", "expected": ["positive"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Really.", "expected": ["neutral"]}
+{"input": "I don't really feel strongly about this game. Honestly.", "expected": ["neutral"]}
+{"input": "Nothing works properly, it's a disaster. Overall.", "expected": ["negative"]}
+{"input": "The game is decent but forgettable. Honestly.", "expected": ["neutral"]}
+{"input": "I uninstalled it after one hour, horrible. Seriously.", "expected": ["negative"]}
+{"input": "I enjoyed every minute of it. Overall.", "expected": ["positive"]}
+{"input": "Terrible performance and constant crashes. Really.", "expected": ["negative"]}
+{"input": "It's okay, nothing special. Overall.", "expected": ["neutral"]}
+{"input": "I guess it's alright. For real.", "expected": ["neutral"]}
+{"input": "One of the best experiences I've had in years. Overall.", "expected": ["positive"]}
+{"input": "I uninstalled it after one hour, horrible. Just saying.", "expected": ["negative"]}
+{"input": "Mixed feelings overall. To be honest.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more. Seriously.", "expected": ["neutral"]}
+{"input": "This game exceeded all my expectations. In my opinion.", "expected": ["positive"]}
+{"input": "I absolutely loved this game, it was fantastic. Overall.", "expected": ["positive"]}
+{"input": "This is trash, do not buy it. Really.", "expected": ["negative"]}
+{"input": "This game is terrible and a complete waste of money. Honestly.", "expected": ["negative"]}
+{"input": "This is trash, do not buy it. Honestly.", "expected": ["negative"]}
+{"input": "It's okay, nothing special. Honestly.", "expected": ["neutral"]}
+{"input": "The worst experience I've had in a long time.", "expected": ["negative"]}
+{"input": "This is trash, do not buy it. No joke.", "expected": ["negative"]}
+{"input": "This game exceeded all my expectations. Just saying.", "expected": ["positive"]}
+{"input": "This is trash, do not buy it.", "expected": ["negative"]}
+{"input": "This is easily a 10/10 for me. In my opinion.", "expected": ["positive"]}
+{"input": "Hard to say if I like it or not. For real.", "expected": ["neutral"]}
+{"input": "Not bad, not great, just average. Honestly.", "expected": ["neutral"]}
+{"input": "I uninstalled it after one hour, horrible. Seriously.", "expected": ["negative"]}
+{"input": "Some parts are good, others not so much. Honestly.", "expected": ["neutral"]}
+{"input": "It's okay, nothing special. To be honest.", "expected": ["neutral"]}
+{"input": "Some parts are good, others not so much. Seriously.", "expected": ["neutral"]}
+{"input": "Hard to say if I like it or not. Just saying.", "expected": ["neutral"]}
+{"input": "It's fine, but I wouldn't recommend it strongly. Honestly.", "expected": ["neutral"]}
+{"input": "It's acceptable, nothing more. No joke.", "expected": ["neutral"]}
+{"input": "I absolutely loved this game, it was fantastic. Just saying.", "expected": ["positive"]}
+{"input": "I enjoyed every minute of it.", "expected": ["positive"]}
+{"input": "One of the best experiences I've had in years. In my opinion.", "expected": ["positive"]}
+{"input": "It's fine, but I wouldn't recommend it strongly.", "expected": ["neutral"]}
+{"input": "This is trash, do not buy it. For real.", "expected": ["negative"]}
+{"input": "This is easily a 10/10 for me. In my opinion.", "expected": ["positive"]}
+{"input": "The game is decent but forgettable. Overall.", "expected": ["neutral"]}
+{"input": "Nothing works properly, it's a disaster.", "expected": ["negative"]}
+{"input": "This game is terrible and a complete waste of money. Honestly.", "expected": ["negative"]}
+{"input": "Hard to say if I like it or not. To be honest.", "expected": ["neutral"]}
+{"input": "I guess it's alright. No joke.", "expected": ["neutral"]}
+{"input": "Some parts are good, others not so much. Just saying.", "expected": ["neutral"]}
+{"input": "I don't really feel strongly about this game. Really.", "expected": ["neutral"]}
+{"input": "One of the best experiences I've had in years. Honestly.", "expected": ["positive"]}
+{"input": "I absolutely loved this game, it was fantastic. In my opinion.", "expected": ["positive"]}
+{"input": "This game exceeded all my expectations. For real.", "expected": ["positive"]}
+{"input": "I enjoyed every minute of it. Just saying.", "expected": ["positive"]}
+{"input": "This game is terrible and a complete waste of money. For real.", "expected": ["negative"]}
+{"input": "It's acceptable, nothing more.", "expected": ["neutral"]}
+{"input": "This game exceeded all my expectations. To be honest.", "expected": ["positive"]}
+{"input": "This game is terrible and a complete waste of money. For real.", "expected": ["negative"]}
+{"input": "The story is boring and the combat is awful. Seriously.", "expected": ["negative"]}
+{"input": "One of the best experiences I've had in years.", "expected": ["positive"]}
+{"input": "The combat feels great and the story is wonderful. Honestly.", "expected": ["positive"]}
+{"input": "Mixed feelings overall. Honestly.", "expected": ["neutral"]}
+{"input": "Mixed feelings overall. To be honest.", "expected": ["neutral"]}
+{"input": "A masterpiece, truly unforgettable. Honestly.", "expected": ["positive"]}
+{"input": "It's okay, nothing special. Overall.", "expected": ["neutral"]}
+{"input": "Amazing gameplay and beautiful graphics. To be honest.", "expected": ["positive"]}
+{"input": "I guess it's alright. Really.", "expected": ["neutral"]}
+{"input": "Brilliant design and super fun to play. Just saying.", "expected": ["positive"]}
