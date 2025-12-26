@@ -1,4 +1,20 @@
+import os
+import sys
 import json
+
+# -------------------------------------------------------------------
+# 1. Ajouter la racine du projet au PYTHONPATH
+# -------------------------------------------------------------------
+# Ce fichier est : <root>/eval/preproc/run_eval.py
+# On remonte donc de 3 niveaux pour atteindre la racine du projet.
+
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(CURRENT_DIR))  # remonte de /eval/preproc à /<root>
+
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
+
+# Maintenant on peut importer DialogueAgent depuis le paquet agent
 from agent.agent import DialogueAgent
 
 
@@ -17,13 +33,13 @@ def normalize(x):
 
 
 def main():
-    # Charge l’agent uniquement avec PREPROC
+    # Charge l’agent avec le modèle pour PREPROC
     agent = DialogueAgent(
         model={"default": "qwen3", "preproc": "qwen3"},
         device="cuda"
     )
 
-    test_path = "eval/preproc/test.jsonl"
+    test_path = os.path.join("eval", "preproc", "test.jsonl")
     total = 0
     correct = 0
     errors = []
@@ -72,7 +88,7 @@ def main():
 
     if errors:
         print("❌ ERRORS:")
-        for e in errors[:20]:  
+        for e in errors[:20]:  # affiche seulement les 20 premières erreurs
             print("\n---")
             print("Input:    ", e["input"])
             print("Expected: ", e["expected"])
