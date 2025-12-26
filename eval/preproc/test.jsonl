@@ -1,0 +1,300 @@
+{"input": "Find games similar to Punch Club.", "expected": ["Discover games similar to Punch Club"]}
+{"input": "Give me the genre for Sekiro.", "expected": ["Get the genre of Sekiro"]}
+{"input": "Discover games like Factorio but cheaper.", "expected": ["Discover games similar to Factorio"]}
+{"input": "Which one is cheaper, Hollow Knight or Cyberpunk 2077?", "expected": ["Compare the price of Hollow Knight and Cyberpunk 2077"]}
+{"input": "Discover games like Hollow Knight but cheaper.", "expected": ["Discover games similar to Hollow Knight"]}
+{"input": "Between Sekiro and Factorio, which one is better?", "expected": ["Compare the reviews of Sekiro and Factorio"]}
+{"input": "Which one is cheaper, Hollow Knight or Elden Ring?", "expected": ["Compare the price of Hollow Knight and Elden Ring"]}
+{"input": "Discover games like Monster Hunter World but cheaper.", "expected": ["Discover games similar to Monster Hunter World"]}
+{"input": "Discover games like Factorio but cheaper.", "expected": ["Discover games similar to Factorio"]}
+{"input": "Which one has better price, Dark Souls II or Baldur's Gate 3?", "expected": ["Compare the reviews of Dark Souls II and Baldur's Gate 3"]}
+{"input": "Give me the genre for Hollow Knight.", "expected": ["Get the genre of Hollow Knight"]}
+{"input": "What is the review of Terraria?", "expected": ["Get the review of Terraria"]}
+{"input": "What is the genre of Terraria?", "expected": ["Get the genre of Terraria"]}
+{"input": "Between Elden Ring and Dead Cells, which one is better?", "expected": ["Compare the reviews of Elden Ring and Dead Cells"]}
+{"input": "Which one is cheaper, Hollow Knight or Sekiro?", "expected": ["Compare the price of Hollow Knight and Sekiro"]}
+{"input": "First, tell me the genre of Hollow Knight, then compare it with Punch Club.", "expected": ["Get the genre of Hollow Knight", "Compare the genre of Hollow Knight and Punch Club"]}
+{"input": "Give me the mode for Hollow Knight.", "expected": ["Get the mode of Hollow Knight"]}
+{"input": "What is the price of Sekiro?", "expected": ["Get the price of Sekiro"]}
+{"input": "Tell me the mode of Slay the Spire.", "expected": ["Get the mode of Slay the Spire"]}
+{"input": "Which one has better price, Bloodborne or Hades?", "expected": ["Compare the reviews of Bloodborne and Hades"]}
+{"input": "Compare the price of Dark Souls II and Bloodborne.", "expected": ["Compare the price of Dark Souls II and Bloodborne"]}
+{"input": "Find games similar to Hades.", "expected": ["Discover games similar to Hades"]}
+{"input": "Show me games like Terraria.", "expected": ["Discover games similar to Terraria"]}
+{"input": "Which one is cheaper, Doom Eternal or Punch Club?", "expected": ["Compare the price of Doom Eternal and Punch Club"]}
+{"input": "Compare the price of Dark Souls Remastered and The Witcher 3.", "expected": ["Compare the price of Dark Souls Remastered and The Witcher 3"]}
+{"input": "Between Dark Souls Remastered and Cyberpunk 2077, which one is better?", "expected": ["Compare the reviews of Dark Souls Remastered and Cyberpunk 2077"]}
+{"input": "What is the price of Monster Hunter World?", "expected": ["Get the price of Monster Hunter World"]}
+{"input": "Which one is cheaper, Punch Club or Vampire Survivors?", "expected": ["Compare the price of Punch Club and Vampire Survivors"]}
+{"input": "Tell me the price of Dark Souls III and also compare it with Monster Hunter World.", "expected": ["Get the price of Dark Souls III", "Compare the price of Dark Souls III and Monster Hunter World"]}
+{"input": "Find games similar to Elden Ring.", "expected": ["Discover games similar to Elden Ring"]}
+{"input": "Discover games like Doom Eternal but cheaper.", "expected": ["Discover games similar to Doom Eternal"]}
+{"input": "First, tell me the mode of Celeste, then compare it with Sekiro.", "expected": ["Get the mode of Celeste", "Compare the mode of Celeste and Sekiro"]}
+{"input": "Can you show me the price of Dark Souls Remastered?", "expected": ["Get the price of Dark Souls Remastered"]}
+{"input": "First, tell me the mode of Dark Souls Remastered, then compare it with Monster Hunter Rise.", "expected": ["Get the mode of Dark Souls Remastered", "Compare the mode of Dark Souls Remastered and Monster Hunter Rise"]}
+{"input": "Give me the review for Dead Cells.", "expected": ["Get the review of Dead Cells"]}
+{"input": "Tell me the price of Celeste.", "expected": ["Get the price of Celeste"]}
+{"input": "Which one has better review, Punch Club or Vampire Survivors?", "expected": ["Compare the reviews of Punch Club and Vampire Survivors"]}
+{"input": "Which one has better price, Terraria or The Witcher 3?", "expected": ["Compare the reviews of Terraria and The Witcher 3"]}
+{"input": "First, tell me the platform of Baldur's Gate 3, then compare it with Terraria.", "expected": ["Get the platform of Baldur's Gate 3", "Compare the platform of Baldur's Gate 3 and Terraria"]}
+{"input": "What is the platform of Celeste?", "expected": ["Get the platform of Celeste"]}
+{"input": "Give me the mode for Slay the Spire.", "expected": ["Get the mode of Slay the Spire"]}
+{"input": "Which one is cheaper, Dark Souls Remastered or Factorio?", "expected": ["Compare the price of Dark Souls Remastered and Factorio"]}
+{"input": "Give me the mode for Dark Souls Remastered.", "expected": ["Get the mode of Dark Souls Remastered"]}
+{"input": "Tell me the platform of The Witcher 3 and also compare it with Slay the Spire.", "expected": ["Get the platform of The Witcher 3", "Compare the platform of The Witcher 3 and Slay the Spire"]}
+{"input": "Can you show me the review of Factorio?", "expected": ["Get the review of Factorio"]}
+{"input": "Find games like Dark Souls II but easier.", "expected": ["Discover games similar to Dark Souls II"]}
+{"input": "Between Elden Ring and The Witcher 3, which one is better?", "expected": ["Compare the reviews of Elden Ring and The Witcher 3"]}
+{"input": "Find games like Celeste but easier.", "expected": ["Discover games similar to Celeste"]}
+{"input": "Which one is cheaper, Hades or Dead Cells?", "expected": ["Compare the price of Hades and Dead Cells"]}
+{"input": "Discover games like Monster Hunter World but cheaper.", "expected": ["Discover games similar to Monster Hunter World"]}
+{"input": "Which one is cheaper, Dark Souls II or Stardew Valley?", "expected": ["Compare the price of Dark Souls II and Stardew Valley"]}
+{"input": "Compare the genre of Stardew Valley and Sekiro.", "expected": ["Compare the genre of Stardew Valley and Sekiro"]}
+{"input": "Which one has better genre, Factorio or Bloodborne?", "expected": ["Compare the reviews of Factorio and Bloodborne"]}
+{"input": "Find games like Hades but easier.", "expected": ["Discover games similar to Hades"]}
+{"input": "Which one has better review, Doom Eternal or Dark Souls II?", "expected": ["Compare the reviews of Doom Eternal and Dark Souls II"]}
+{"input": "Give me the review of Dead Cells, then show me games like Dark Souls Remastered.", "expected": ["Get the review of Dead Cells", "Compare the review of Dead Cells and Dark Souls Remastered"]}
+{"input": "Compare the mode of Elden Ring and Monster Hunter Rise.", "expected": ["Compare the mode of Elden Ring and Monster Hunter Rise"]}
+{"input": "Can you show me the genre of Bloodborne?", "expected": ["Get the genre of Bloodborne"]}
+{"input": "Tell me the genre of Monster Hunter World and also compare it with Dark Souls II.", "expected": ["Get the genre of Monster Hunter World", "Compare the genre of Monster Hunter World and Dark Souls II"]}
+{"input": "What is the mode of Sekiro?", "expected": ["Get the mode of Sekiro"]}
+{"input": "Give me the genre of Dark Souls III, then show me games like Dark Souls II.", "expected": ["Get the genre of Dark Souls III", "Compare the genre of Dark Souls III and Dark Souls II"]}
+{"input": "Discover games like Sekiro but cheaper.", "expected": ["Discover games similar to Sekiro"]}
+{"input": "Between The Witcher 3 and Factorio, which one is better?", "expected": ["Compare the reviews of The Witcher 3 and Factorio"]}
+{"input": "What is the review of Sekiro?", "expected": ["Get the review of Sekiro"]}
+{"input": "Which one has better platform, Terraria or Dark Souls Remastered?", "expected": ["Compare the reviews of Terraria and Dark Souls Remastered"]}
+{"input": "Which one has better mode, Punch Club or Dark Souls II?", "expected": ["Compare the reviews of Punch Club and Dark Souls II"]}
+{"input": "Give me the mode for Hades.", "expected": ["Get the mode of Hades"]}
+{"input": "What is the price of Elden Ring?", "expected": ["Get the price of Elden Ring"]}
+{"input": "Compare the genre of Bloodborne and Doom Eternal.", "expected": ["Compare the genre of Bloodborne and Doom Eternal"]}
+{"input": "Compare the genre of The Witcher 3 and Baldur's Gate 3.", "expected": ["Compare the genre of The Witcher 3 and Baldur's Gate 3"]}
+{"input": "Give me the mode for The Witcher 3.", "expected": ["Get the mode of The Witcher 3"]}
+{"input": "Can you show me the review of Stardew Valley?", "expected": ["Get the review of Stardew Valley"]}
+{"input": "First, tell me the platform of Elden Ring, then compare it with Vampire Survivors.", "expected": ["Get the platform of Elden Ring", "Compare the platform of Elden Ring and Vampire Survivors"]}
+{"input": "Between Bloodborne and Sekiro, which one is better?", "expected": ["Compare the reviews of Bloodborne and Sekiro"]}
+{"input": "Find games like Monster Hunter World but easier.", "expected": ["Discover games similar to Monster Hunter World"]}
+{"input": "What is the price of Monster Hunter World?", "expected": ["Get the price of Monster Hunter World"]}
+{"input": "Which one has better genre, Dark Souls II or Dark Souls Remastered?", "expected": ["Compare the reviews of Dark Souls II and Dark Souls Remastered"]}
+{"input": "Between Elden Ring and Bloodborne, which one is better?", "expected": ["Compare the reviews of Elden Ring and Bloodborne"]}
+{"input": "Which one is cheaper, Monster Hunter Rise or Vampire Survivors?", "expected": ["Compare the price of Monster Hunter Rise and Vampire Survivors"]}
+{"input": "Tell me the price of Factorio and also compare it with Dark Souls III.", "expected": ["Get the price of Factorio", "Compare the price of Factorio and Dark Souls III"]}
+{"input": "Give me the mode of Terraria, then show me games like Monster Hunter World.", "expected": ["Get the mode of Terraria", "Compare the mode of Terraria and Monster Hunter World"]}
+{"input": "Which one is cheaper, Monster Hunter Rise or Dark Souls III?", "expected": ["Compare the price of Monster Hunter Rise and Dark Souls III"]}
+{"input": "Which one has better price, Vampire Survivors or Slay the Spire?", "expected": ["Compare the reviews of Vampire Survivors and Slay the Spire"]}
+{"input": "Between Monster Hunter World and Dark Souls Remastered, which one is better?", "expected": ["Compare the reviews of Monster Hunter World and Dark Souls Remastered"]}
+{"input": "Give me the platform for Dark Souls II.", "expected": ["Get the platform of Dark Souls II"]}
+{"input": "Discover games like Monster Hunter Rise but cheaper.", "expected": ["Discover games similar to Monster Hunter Rise"]}
+{"input": "Which one has better price, Cyberpunk 2077 or Elden Ring?", "expected": ["Compare the reviews of Cyberpunk 2077 and Elden Ring"]}
+{"input": "Give me the price for Dark Souls III.", "expected": ["Get the price of Dark Souls III"]}
+{"input": "First, tell me the review of Cyberpunk 2077, then compare it with Vampire Survivors.", "expected": ["Get the review of Cyberpunk 2077", "Compare the review of Cyberpunk 2077 and Vampire Survivors"]}
+{"input": "Tell me the genre of Sekiro.", "expected": ["Get the genre of Sekiro"]}
+{"input": "Tell me the mode of Factorio.", "expected": ["Get the mode of Factorio"]}
+{"input": "Give me the platform for Punch Club.", "expected": ["Get the platform of Punch Club"]}
+{"input": "Give me the genre for Elden Ring.", "expected": ["Get the genre of Elden Ring"]}
+{"input": "Tell me the platform of Elden Ring and also compare it with Monster Hunter World.", "expected": ["Get the platform of Elden Ring", "Compare the platform of Elden Ring and Monster Hunter World"]}
+{"input": "Compare the genre of Hades and The Witcher 3.", "expected": ["Compare the genre of Hades and The Witcher 3"]}
+{"input": "Discover games like Dark Souls Remastered but cheaper.", "expected": ["Discover games similar to Dark Souls Remastered"]}
+{"input": "Compare the platform of Slay the Spire and Dark Souls III.", "expected": ["Compare the platform of Slay the Spire and Dark Souls III"]}
+{"input": "Which one is cheaper, Baldur's Gate 3 or Monster Hunter World?", "expected": ["Compare the price of Baldur's Gate 3 and Monster Hunter World"]}
+{"input": "Discover games like Punch Club but cheaper.", "expected": ["Discover games similar to Punch Club"]}
+{"input": "Compare the platform of Punch Club and Dead Cells.", "expected": ["Compare the platform of Punch Club and Dead Cells"]}
+{"input": "Which one has better platform, Sekiro or Dark Souls Remastered?", "expected": ["Compare the reviews of Sekiro and Dark Souls Remastered"]}
+{"input": "Which one has better genre, Sekiro or Doom Eternal?", "expected": ["Compare the reviews of Sekiro and Doom Eternal"]}
+{"input": "What is the review of Cyberpunk 2077?", "expected": ["Get the review of Cyberpunk 2077"]}
+{"input": "Can you show me the platform of Sekiro?", "expected": ["Get the platform of Sekiro"]}
+{"input": "Give me the review of Elden Ring, then show me games like Dark Souls II.", "expected": ["Get the review of Elden Ring", "Compare the review of Elden Ring and Dark Souls II"]}
+{"input": "Give me the mode of Terraria, then show me games like Sekiro.", "expected": ["Get the mode of Terraria", "Compare the mode of Terraria and Sekiro"]}
+{"input": "Give me the platform of Dark Souls II, then show me games like Baldur's Gate 3.", "expected": ["Get the platform of Dark Souls II", "Compare the platform of Dark Souls II and Baldur's Gate 3"]}
+{"input": "Between Dark Souls III and Stardew Valley, which one is better?", "expected": ["Compare the reviews of Dark Souls III and Stardew Valley"]}
+{"input": "Compare the platform of Celeste and Dark Souls Remastered.", "expected": ["Compare the platform of Celeste and Dark Souls Remastered"]}
+{"input": "Show me games like Monster Hunter World.", "expected": ["Discover games similar to Monster Hunter World"]}
+{"input": "Tell me the platform of Factorio and also compare it with Stardew Valley.", "expected": ["Get the platform of Factorio", "Compare the platform of Factorio and Stardew Valley"]}
+{"input": "Compare the genre of Punch Club and Monster Hunter Rise.", "expected": ["Compare the genre of Punch Club and Monster Hunter Rise"]}
+{"input": "First, tell me the price of Dead Cells, then compare it with Vampire Survivors.", "expected": ["Get the price of Dead Cells", "Compare the price of Dead Cells and Vampire Survivors"]}
+{"input": "Tell me the genre of Factorio and also compare it with Baldur's Gate 3.", "expected": ["Get the genre of Factorio", "Compare the genre of Factorio and Baldur's Gate 3"]}
+{"input": "Show me games like Factorio.", "expected": ["Discover games similar to Factorio"]}
+{"input": "Which one is cheaper, Stardew Valley or Vampire Survivors?", "expected": ["Compare the price of Stardew Valley and Vampire Survivors"]}
+{"input": "Which one has better review, Bloodborne or Cyberpunk 2077?", "expected": ["Compare the reviews of Bloodborne and Cyberpunk 2077"]}
+{"input": "Tell me the review of Stardew Valley and also compare it with Doom Eternal.", "expected": ["Get the review of Stardew Valley", "Compare the review of Stardew Valley and Doom Eternal"]}
+{"input": "Find games like Dark Souls Remastered but easier.", "expected": ["Discover games similar to Dark Souls Remastered"]}
+{"input": "Show me games like Slay the Spire.", "expected": ["Discover games similar to Slay the Spire"]}
+{"input": "Give me the genre for Sekiro.", "expected": ["Get the genre of Sekiro"]}
+{"input": "Tell me the price of Sekiro and also compare it with Slay the Spire.", "expected": ["Get the price of Sekiro", "Compare the price of Sekiro and Slay the Spire"]}
+{"input": "What is the review of Stardew Valley?", "expected": ["Get the review of Stardew Valley"]}
+{"input": "Between The Witcher 3 and Stardew Valley, which one is better?", "expected": ["Compare the reviews of The Witcher 3 and Stardew Valley"]}
+{"input": "Between Monster Hunter World and The Witcher 3, which one is better?", "expected": ["Compare the reviews of Monster Hunter World and The Witcher 3"]}
+{"input": "What is the mode of Factorio?", "expected": ["Get the mode of Factorio"]}
+{"input": "Give me the mode for The Witcher 3.", "expected": ["Get the mode of The Witcher 3"]}
+{"input": "Find games similar to Celeste.", "expected": ["Discover games similar to Celeste"]}
+{"input": "Which one is cheaper, Terraria or Hollow Knight?", "expected": ["Compare the price of Terraria and Hollow Knight"]}
+{"input": "Which one is cheaper, Dark Souls II or Bloodborne?", "expected": ["Compare the price of Dark Souls II and Bloodborne"]}
+{"input": "Discover games like Dark Souls Remastered but cheaper.", "expected": ["Discover games similar to Dark Souls Remastered"]}
+{"input": "Which one is cheaper, Dark Souls III or Dead Cells?", "expected": ["Compare the price of Dark Souls III and Dead Cells"]}
+{"input": "Between Baldur's Gate 3 and Terraria, which one is better?", "expected": ["Compare the reviews of Baldur's Gate 3 and Terraria"]}
+{"input": "What is the price of Dark Souls III?", "expected": ["Get the price of Dark Souls III"]}
+{"input": "Compare the genre of Slay the Spire and Punch Club.", "expected": ["Compare the genre of Slay the Spire and Punch Club"]}
+{"input": "Discover games like Bloodborne but cheaper.", "expected": ["Discover games similar to Bloodborne"]}
+{"input": "Find games similar to Factorio.", "expected": ["Discover games similar to Factorio"]}
+{"input": "Between Sekiro and Bloodborne, which one is better?", "expected": ["Compare the reviews of Sekiro and Bloodborne"]}
+{"input": "Which one has better price, Elden Ring or Dark Souls Remastered?", "expected": ["Compare the reviews of Elden Ring and Dark Souls Remastered"]}
+{"input": "Can you show me the mode of Slay the Spire?", "expected": ["Get the mode of Slay the Spire"]}
+{"input": "Can you show me the price of Dark Souls Remastered?", "expected": ["Get the price of Dark Souls Remastered"]}
+{"input": "Which one has better mode, Dark Souls Remastered or Hollow Knight?", "expected": ["Compare the reviews of Dark Souls Remastered and Hollow Knight"]}
+{"input": "Find games like Cyberpunk 2077 but easier.", "expected": ["Discover games similar to Cyberpunk 2077"]}
+{"input": "Tell me the platform of Dark Souls Remastered and also compare it with Dark Souls III.", "expected": ["Get the platform of Dark Souls Remastered", "Compare the platform of Dark Souls Remastered and Dark Souls III"]}
+{"input": "Discover games like Dark Souls II but cheaper.", "expected": ["Discover games similar to Dark Souls II"]}
+{"input": "Compare the price of Hades and The Witcher 3.", "expected": ["Compare the price of Hades and The Witcher 3"]}
+{"input": "Between Terraria and Celeste, which one is better?", "expected": ["Compare the reviews of Terraria and Celeste"]}
+{"input": "Tell me the mode of Sekiro.", "expected": ["Get the mode of Sekiro"]}
+{"input": "Discover games like Hollow Knight but cheaper.", "expected": ["Discover games similar to Hollow Knight"]}
+{"input": "Find games similar to Celeste.", "expected": ["Discover games similar to Celeste"]}
+{"input": "What is the genre of Monster Hunter World?", "expected": ["Get the genre of Monster Hunter World"]}
+{"input": "Find games similar to Bloodborne.", "expected": ["Discover games similar to Bloodborne"]}
+{"input": "Find games similar to Monster Hunter Rise.", "expected": ["Discover games similar to Monster Hunter Rise"]}
+{"input": "Compare the platform of Cyberpunk 2077 and Baldur's Gate 3.", "expected": ["Compare the platform of Cyberpunk 2077 and Baldur's Gate 3"]}
+{"input": "Can you show me the mode of Hades?", "expected": ["Get the mode of Hades"]}
+{"input": "What is the price of Hades?", "expected": ["Get the price of Hades"]}
+{"input": "Give me the review of Punch Club, then show me games like Factorio.", "expected": ["Get the review of Punch Club", "Compare the review of Punch Club and Factorio"]}
+{"input": "Compare the mode of Factorio and Dark Souls II.", "expected": ["Compare the mode of Factorio and Dark Souls II"]}
+{"input": "Which one is cheaper, Baldur's Gate 3 or Cyberpunk 2077?", "expected": ["Compare the price of Baldur's Gate 3 and Cyberpunk 2077"]}
+{"input": "Tell me the genre of Dark Souls II and also compare it with Factorio.", "expected": ["Get the genre of Dark Souls II", "Compare the genre of Dark Souls II and Factorio"]}
+{"input": "Between Monster Hunter Rise and Slay the Spire, which one is better?", "expected": ["Compare the reviews of Monster Hunter Rise and Slay the Spire"]}
+{"input": "Which one is cheaper, Terraria or Hades?", "expected": ["Compare the price of Terraria and Hades"]}
+{"input": "Discover games like Slay the Spire but cheaper.", "expected": ["Discover games similar to Slay the Spire"]}
+{"input": "Can you show me the platform of Elden Ring?", "expected": ["Get the platform of Elden Ring"]}
+{"input": "Which one is cheaper, Stardew Valley or Monster Hunter Rise?", "expected": ["Compare the price of Stardew Valley and Monster Hunter Rise"]}
+{"input": "Find games like Dark Souls Remastered but easier.", "expected": ["Discover games similar to Dark Souls Remastered"]}
+{"input": "Find games similar to Hollow Knight.", "expected": ["Discover games similar to Hollow Knight"]}
+{"input": "Which one has better genre, Monster Hunter World or Hades?", "expected": ["Compare the reviews of Monster Hunter World and Hades"]}
+{"input": "Can you show me the mode of Celeste?", "expected": ["Get the mode of Celeste"]}
+{"input": "Between Dark Souls Remastered and Stardew Valley, which one is better?", "expected": ["Compare the reviews of Dark Souls Remastered and Stardew Valley"]}
+{"input": "Between Dark Souls Remastered and Celeste, which one is better?", "expected": ["Compare the reviews of Dark Souls Remastered and Celeste"]}
+{"input": "Find games similar to Cyberpunk 2077.", "expected": ["Discover games similar to Cyberpunk 2077"]}
+{"input": "Which one has better platform, Factorio or Slay the Spire?", "expected": ["Compare the reviews of Factorio and Slay the Spire"]}
+{"input": "Between Bloodborne and Terraria, which one is better?", "expected": ["Compare the reviews of Bloodborne and Terraria"]}
+{"input": "Give me the mode for Stardew Valley.", "expected": ["Get the mode of Stardew Valley"]}
+{"input": "Between Dark Souls II and Punch Club, which one is better?", "expected": ["Compare the reviews of Dark Souls II and Punch Club"]}
+{"input": "Tell me the genre of Bloodborne.", "expected": ["Get the genre of Bloodborne"]}
+{"input": "Tell me the review of Elden Ring and also compare it with Doom Eternal.", "expected": ["Get the review of Elden Ring", "Compare the review of Elden Ring and Doom Eternal"]}
+{"input": "Which one has better platform, Factorio or Punch Club?", "expected": ["Compare the reviews of Factorio and Punch Club"]}
+{"input": "Can you show me the price of Celeste?", "expected": ["Get the price of Celeste"]}
+{"input": "Which one has better platform, Monster Hunter World or Dark Souls II?", "expected": ["Compare the reviews of Monster Hunter World and Dark Souls II"]}
+{"input": "Find games similar to Terraria.", "expected": ["Discover games similar to Terraria"]}
+{"input": "What is the review of Terraria?", "expected": ["Get the review of Terraria"]}
+{"input": "Tell me the mode of Doom Eternal and also compare it with Monster Hunter World.", "expected": ["Get the mode of Doom Eternal", "Compare the mode of Doom Eternal and Monster Hunter World"]}
+{"input": "Compare the mode of Terraria and Hollow Knight.", "expected": ["Compare the mode of Terraria and Hollow Knight"]}
+{"input": "Discover games like Bloodborne but cheaper.", "expected": ["Discover games similar to Bloodborne"]}
+{"input": "Find games like Punch Club but easier.", "expected": ["Discover games similar to Punch Club"]}
+{"input": "Which one is cheaper, Monster Hunter Rise or Hollow Knight?", "expected": ["Compare the price of Monster Hunter Rise and Hollow Knight"]}
+{"input": "Show me games like Bloodborne.", "expected": ["Discover games similar to Bloodborne"]}
+{"input": "Give me the genre for Hades.", "expected": ["Get the genre of Hades"]}
+{"input": "Give me the review for Hollow Knight.", "expected": ["Get the review of Hollow Knight"]}
+{"input": "What is the genre of Dead Cells?", "expected": ["Get the genre of Dead Cells"]}
+{"input": "Tell me the platform of Terraria.", "expected": ["Get the platform of Terraria"]}
+{"input": "Give me the mode for Dark Souls Remastered.", "expected": ["Get the mode of Dark Souls Remastered"]}
+{"input": "Which one has better review, Elden Ring or Vampire Survivors?", "expected": ["Compare the reviews of Elden Ring and Vampire Survivors"]}
+{"input": "Give me the mode for Elden Ring.", "expected": ["Get the mode of Elden Ring"]}
+{"input": "Can you show me the price of Monster Hunter World?", "expected": ["Get the price of Monster Hunter World"]}
+{"input": "Can you show me the price of Punch Club?", "expected": ["Get the price of Punch Club"]}
+{"input": "Find games like Dark Souls III but easier.", "expected": ["Discover games similar to Dark Souls III"]}
+{"input": "Show me games like Vampire Survivors.", "expected": ["Discover games similar to Vampire Survivors"]}
+{"input": "Can you show me the review of Dark Souls Remastered?", "expected": ["Get the review of Dark Souls Remastered"]}
+{"input": "Which one has better genre, Monster Hunter World or Slay the Spire?", "expected": ["Compare the reviews of Monster Hunter World and Slay the Spire"]}
+{"input": "What is the mode of Bloodborne?", "expected": ["Get the mode of Bloodborne"]}
+{"input": "Between Dark Souls Remastered and Doom Eternal, which one is better?", "expected": ["Compare the reviews of Dark Souls Remastered and Doom Eternal"]}
+{"input": "Which one has better platform, Dark Souls Remastered or Celeste?", "expected": ["Compare the reviews of Dark Souls Remastered and Celeste"]}
+{"input": "Which one is cheaper, Baldur's Gate 3 or Punch Club?", "expected": ["Compare the price of Baldur's Gate 3 and Punch Club"]}
+{"input": "Between Sekiro and The Witcher 3, which one is better?", "expected": ["Compare the reviews of Sekiro and The Witcher 3"]}
+{"input": "First, tell me the mode of Dead Cells, then compare it with Monster Hunter World.", "expected": ["Get the mode of Dead Cells", "Compare the mode of Dead Cells and Monster Hunter World"]}
+{"input": "Give me the platform for Stardew Valley.", "expected": ["Get the platform of Stardew Valley"]}
+{"input": "Which one has better genre, Stardew Valley or Cyberpunk 2077?", "expected": ["Compare the reviews of Stardew Valley and Cyberpunk 2077"]}
+{"input": "Give me the platform for Punch Club.", "expected": ["Get the platform of Punch Club"]}
+{"input": "Compare the platform of Vampire Survivors and Dark Souls Remastered.", "expected": ["Compare the platform of Vampire Survivors and Dark Souls Remastered"]}
+{"input": "Find games similar to Punch Club.", "expected": ["Discover games similar to Punch Club"]}
+{"input": "Compare the price of Dark Souls II and Bloodborne.", "expected": ["Compare the price of Dark Souls II and Bloodborne"]}
+{"input": "Give me the review of Dead Cells, then show me games like Hades.", "expected": ["Get the review of Dead Cells", "Compare the review of Dead Cells and Hades"]}
+{"input": "Compare the mode of Dark Souls Remastered and Dark Souls II.", "expected": ["Compare the mode of Dark Souls Remastered and Dark Souls II"]}
+{"input": "Give me the mode of Stardew Valley, then show me games like Monster Hunter World.", "expected": ["Get the mode of Stardew Valley", "Compare the mode of Stardew Valley and Monster Hunter World"]}
+{"input": "First, tell me the review of Bloodborne, then compare it with Terraria.", "expected": ["Get the review of Bloodborne", "Compare the review of Bloodborne and Terraria"]}
+{"input": "Compare the review of Baldur's Gate 3 and Dead Cells.", "expected": ["Compare the review of Baldur's Gate 3 and Dead Cells"]}
+{"input": "Compare the genre of Hades and Dark Souls Remastered.", "expected": ["Compare the genre of Hades and Dark Souls Remastered"]}
+{"input": "Between The Witcher 3 and Hades, which one is better?", "expected": ["Compare the reviews of The Witcher 3 and Hades"]}
+{"input": "Compare the genre of Slay the Spire and Doom Eternal.", "expected": ["Compare the genre of Slay the Spire and Doom Eternal"]}
+{"input": "Between Dark Souls III and Slay the Spire, which one is better?", "expected": ["Compare the reviews of Dark Souls III and Slay the Spire"]}
+{"input": "First, tell me the review of Stardew Valley, then compare it with Vampire Survivors.", "expected": ["Get the review of Stardew Valley", "Compare the review of Stardew Valley and Vampire Survivors"]}
+{"input": "Between Punch Club and Slay the Spire, which one is better?", "expected": ["Compare the reviews of Punch Club and Slay the Spire"]}
+{"input": "Which one is cheaper, Monster Hunter World or Dead Cells?", "expected": ["Compare the price of Monster Hunter World and Dead Cells"]}
+{"input": "Which one has better price, Terraria or Dark Souls III?", "expected": ["Compare the reviews of Terraria and Dark Souls III"]}
+{"input": "Give me the platform of Vampire Survivors, then show me games like The Witcher 3.", "expected": ["Get the platform of Vampire Survivors", "Compare the platform of Vampire Survivors and The Witcher 3"]}
+{"input": "Find games similar to The Witcher 3.", "expected": ["Discover games similar to The Witcher 3"]}
+{"input": "Which one has better genre, Dead Cells or Cyberpunk 2077?", "expected": ["Compare the reviews of Dead Cells and Cyberpunk 2077"]}
+{"input": "Show me games like Celeste.", "expected": ["Discover games similar to Celeste"]}
+{"input": "Show me games like Hades.", "expected": ["Discover games similar to Hades"]}
+{"input": "First, tell me the genre of Hades, then compare it with Vampire Survivors.", "expected": ["Get the genre of Hades", "Compare the genre of Hades and Vampire Survivors"]}
+{"input": "First, tell me the review of Vampire Survivors, then compare it with Monster Hunter Rise.", "expected": ["Get the review of Vampire Survivors", "Compare the review of Vampire Survivors and Monster Hunter Rise"]}
+{"input": "Between Vampire Survivors and Doom Eternal, which one is better?", "expected": ["Compare the reviews of Vampire Survivors and Doom Eternal"]}
+{"input": "Give me the mode for Dark Souls II.", "expected": ["Get the mode of Dark Souls II"]}
+{"input": "Can you show me the price of Celeste?", "expected": ["Get the price of Celeste"]}
+{"input": "Show me games like Doom Eternal.", "expected": ["Discover games similar to Doom Eternal"]}
+{"input": "What is the genre of Baldur's Gate 3?", "expected": ["Get the genre of Baldur's Gate 3"]}
+{"input": "Compare the platform of Vampire Survivors and Dead Cells.", "expected": ["Compare the platform of Vampire Survivors and Dead Cells"]}
+{"input": "Which one has better platform, Stardew Valley or The Witcher 3?", "expected": ["Compare the reviews of Stardew Valley and The Witcher 3"]}
+{"input": "Which one is cheaper, Dark Souls III or Stardew Valley?", "expected": ["Compare the price of Dark Souls III and Stardew Valley"]}
+{"input": "Compare the mode of Dead Cells and Cyberpunk 2077.", "expected": ["Compare the mode of Dead Cells and Cyberpunk 2077"]}
+{"input": "Which one has better price, Dark Souls Remastered or Baldur's Gate 3?", "expected": ["Compare the reviews of Dark Souls Remastered and Baldur's Gate 3"]}
+{"input": "Tell me the platform of Dark Souls Remastered.", "expected": ["Get the platform of Dark Souls Remastered"]}
+{"input": "Which one is cheaper, Dark Souls III or Doom Eternal?", "expected": ["Compare the price of Dark Souls III and Doom Eternal"]}
+{"input": "Tell me the mode of Hades.", "expected": ["Get the mode of Hades"]}
+{"input": "First, tell me the mode of Punch Club, then compare it with Monster Hunter World.", "expected": ["Get the mode of Punch Club", "Compare the mode of Punch Club and Monster Hunter World"]}
+{"input": "What is the platform of Celeste?", "expected": ["Get the platform of Celeste"]}
+{"input": "Compare the review of Dark Souls Remastered and Dark Souls Remastered.", "expected": ["Compare the review of Dark Souls Remastered and Dark Souls Remastered"]}
+{"input": "Can you show me the genre of The Witcher 3?", "expected": ["Get the genre of The Witcher 3"]}
+{"input": "Give me the genre for Monster Hunter Rise.", "expected": ["Get the genre of Monster Hunter Rise"]}
+{"input": "Give me the review for Stardew Valley.", "expected": ["Get the review of Stardew Valley"]}
+{"input": "Which one has better platform, Punch Club or Dark Souls III?", "expected": ["Compare the reviews of Punch Club and Dark Souls III"]}
+{"input": "Discover games like Stardew Valley but cheaper.", "expected": ["Discover games similar to Stardew Valley"]}
+{"input": "Which one has better price, Bloodborne or Slay the Spire?", "expected": ["Compare the reviews of Bloodborne and Slay the Spire"]}
+{"input": "Find games like Dark Souls Remastered but easier.", "expected": ["Discover games similar to Dark Souls Remastered"]}
+{"input": "Tell me the platform of Slay the Spire.", "expected": ["Get the platform of Slay the Spire"]}
+{"input": "Compare the review of Monster Hunter Rise and Monster Hunter World.", "expected": ["Compare the review of Monster Hunter Rise and Monster Hunter World"]}
+{"input": "Find games like Punch Club but easier.", "expected": ["Discover games similar to Punch Club"]}
+{"input": "Between Terraria and Dark Souls Remastered, which one is better?", "expected": ["Compare the reviews of Terraria and Dark Souls Remastered"]}
+{"input": "Find games similar to Bloodborne.", "expected": ["Discover games similar to Bloodborne"]}
+{"input": "Between Baldur's Gate 3 and Cyberpunk 2077, which one is better?", "expected": ["Compare the reviews of Baldur's Gate 3 and Cyberpunk 2077"]}
+{"input": "Which one is cheaper, Celeste or Cyberpunk 2077?", "expected": ["Compare the price of Celeste and Cyberpunk 2077"]}
+{"input": "First, tell me the mode of Punch Club, then compare it with Factorio.", "expected": ["Get the mode of Punch Club", "Compare the mode of Punch Club and Factorio"]}
+{"input": "Which one is cheaper, Hades or Celeste?", "expected": ["Compare the price of Hades and Celeste"]}
+{"input": "Find games similar to Terraria.", "expected": ["Discover games similar to Terraria"]}
+{"input": "Find games similar to Sekiro.", "expected": ["Discover games similar to Sekiro"]}
+{"input": "Can you show me the genre of Stardew Valley?", "expected": ["Get the genre of Stardew Valley"]}
+{"input": "Tell me the genre of Hades.", "expected": ["Get the genre of Hades"]}
+{"input": "What is the review of Factorio?", "expected": ["Get the review of Factorio"]}
+{"input": "Between Factorio and Terraria, which one is better?", "expected": ["Compare the reviews of Factorio and Terraria"]}
+{"input": "Find games like Terraria but easier.", "expected": ["Discover games similar to Terraria"]}
+{"input": "Tell me the genre of Vampire Survivors.", "expected": ["Get the genre of Vampire Survivors"]}
+{"input": "Which one has better platform, Punch Club or Doom Eternal?", "expected": ["Compare the reviews of Punch Club and Doom Eternal"]}
+{"input": "Discover games like Doom Eternal but cheaper.", "expected": ["Discover games similar to Doom Eternal"]}
+{"input": "Between Doom Eternal and Baldur's Gate 3, which one is better?", "expected": ["Compare the reviews of Doom Eternal and Baldur's Gate 3"]}
+{"input": "Find games similar to Dark Souls III.", "expected": ["Discover games similar to Dark Souls III"]}
+{"input": "Compare the genre of Dead Cells and Cyberpunk 2077.", "expected": ["Compare the genre of Dead Cells and Cyberpunk 2077"]}
+{"input": "First, tell me the price of Factorio, then compare it with Dark Souls III.", "expected": ["Get the price of Factorio", "Compare the price of Factorio and Dark Souls III"]}
+{"input": "Can you show me the platform of Cyberpunk 2077?", "expected": ["Get the platform of Cyberpunk 2077"]}
+{"input": "Compare the genre of Dark Souls III and Vampire Survivors.", "expected": ["Compare the genre of Dark Souls III and Vampire Survivors"]}
+{"input": "Show me games like Dark Souls II.", "expected": ["Discover games similar to Dark Souls II"]}
+{"input": "First, tell me the genre of Factorio, then compare it with Dark Souls Remastered.", "expected": ["Get the genre of Factorio", "Compare the genre of Factorio and Dark Souls Remastered"]}
+{"input": "Can you show me the mode of Bloodborne?", "expected": ["Get the mode of Bloodborne"]}
+{"input": "Which one has better price, Monster Hunter World or Sekiro?", "expected": ["Compare the reviews of Monster Hunter World and Sekiro"]}
+{"input": "Give me the platform for Sekiro.", "expected": ["Get the platform of Sekiro"]}
+{"input": "Between Vampire Survivors and Slay the Spire, which one is better?", "expected": ["Compare the reviews of Vampire Survivors and Slay the Spire"]}
+{"input": "Compare the platform of Factorio and Baldur's Gate 3.", "expected": ["Compare the platform of Factorio and Baldur's Gate 3"]}
+{"input": "What is the platform of Elden Ring?", "expected": ["Get the platform of Elden Ring"]}
+{"input": "Show me games like Sekiro.", "expected": ["Discover games similar to Sekiro"]}
+{"input": "Between Stardew Valley and Sekiro, which one is better?", "expected": ["Compare the reviews of Stardew Valley and Sekiro"]}
+{"input": "Which one is cheaper, Celeste or Punch Club?", "expected": ["Compare the price of Celeste and Punch Club"]}
+{"input": "Tell me the platform of Factorio.", "expected": ["Get the platform of Factorio"]}
+{"input": "Give me the price of Dark Souls Remastered, then show me games like Hades.", "expected": ["Get the price of Dark Souls Remastered", "Compare the price of Dark Souls Remastered and Hades"]}
+{"input": "Can you show me the review of Sekiro?", "expected": ["Get the review of Sekiro"]}
+{"input": "Discover games like Doom Eternal but cheaper.", "expected": ["Discover games similar to Doom Eternal"]}
+{"input": "Which one is cheaper, Elden Ring or Terraria?", "expected": ["Compare the price of Elden Ring and Terraria"]}
+{"input": "Find games like Monster Hunter World but easier.", "expected": ["Discover games similar to Monster Hunter World"]}
+{"input": "Which one is cheaper, Sekiro or Dark Souls III?", "expected": ["Compare the price of Sekiro and Dark Souls III"]}
