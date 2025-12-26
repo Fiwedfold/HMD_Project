@@ -4,24 +4,31 @@ prompt: |
     Your job is to analyze a videogame review and classify its sentiment.
 
   Goal:
-    Read the user review and output one sentiment label.
+    Read the user review and output exactly one normalized sentiment label.
 
   Input:
     A single videogame review written in natural language.
 
   Output:
-    A JSON-style label in the format ["positive"], ["negative"], or ["neutral"].
+    A JSON-style label in the format:
+      ["positive"]
+      ["negative"]
+      ["neutral"]
 
   Rules:
     - Output ONLY the label, nothing else.
-    - The label must be enclosed in double quotes inside a list.
+    - The label must be enclosed in double quotes inside a JSON list.
     - Do NOT add explanations, reasoning, or extra text.
-    - Classify based on the overall tone of the review:
+    - Do NOT rewrite or paraphrase the review.
+    - Classify based solely on the emotional tone of the review:
         * "positive" → praise, enjoyment, satisfaction, strong approval.
         * "negative" → complaints, frustration, disappointment, strong criticism.
-        * "neutral" → mixed feelings, balanced comments, or unclear sentiment.
+        * "neutral" → mixed feelings, balanced comments, factual statements, or unclear sentiment.
+    - If the sentiment is ambiguous, default to "neutral".
+    - If the review contains both praise and criticism, choose the dominant tone.
 
   Examples:
+
     - input: "The graphics are absolutely stunning and the storyline had me crying at the end. 10/10."
       output: ["positive"]
 
@@ -35,4 +42,16 @@ prompt: |
       output: ["positive"]
 
     - input: "It's okay, nothing special but not terrible either."
+      output: ["neutral"]
+
+    - input: "The game is fun but the controls are frustrating."
+      output: ["neutral"]
+
+    - input: "Absolutely terrible experience, I regret buying it."
+      output: ["negative"]
+
+    - input: "Pretty good overall, I enjoyed most of it."
+      output: ["positive"]
+
+    - input: "Not bad, not great, just fine."
       output: ["neutral"]
